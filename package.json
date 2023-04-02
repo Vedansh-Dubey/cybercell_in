@@ -3,9 +3,23 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@fortawesome/fontawesome-free": "^6.4.0",
+    "@fortawesome/free-solid-svg-icons": "^6.4.0",
+    "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/icons-material": "^5.11.11",
+    "@mui/material": "^5.11.15",
+    "contentful": "^9.3.5",
+    "framer-motion": "^10.9.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1"
+    "react-icons": "^4.8.0",
+    "react-intersection-observer": "^9.4.3",
+    "react-router-dom": "^6.9.0",
+    "react-scripts": "5.0.1",
+    "theme-ui": "^0.15.7",
+    "typewriter-effect": "^2.19.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -27,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "resolve-url-loader": "^5.0.0",
+    "sass": "^1.60.0",
+    "sass-loader": "^10.4.1"
   }
 }

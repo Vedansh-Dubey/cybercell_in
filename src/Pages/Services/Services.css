@@ -1,0 +1,61 @@
+.services-container {
+    position: absolute;
+    top: 10vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.888);
+    padding-block-end: 30vh;
+}
+
+.header {
+    position: relative;
+    top: 5vh;
+    text-align: center;
+    color: aliceblue;
+}
+
+
+
+.hr {
+    width: 10vw;
+    margin-left: 46%;
+    background: #0099ff;
+    height: 4px;
+    border: #0099ff;
+}
+
+.services_heading {
+
+    font-size: 8.5vw;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.services_heading:first-letter {
+    color: #0099ff;
+  }
+
+.services_paragraph {
+    padding-top: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding-left: 25px;
+    padding-right: 25px;
+}
+
+.card-container {
+
+    display: flex;
+    flex-wrap: wrap;
+    gap: 65px;
+    justify-content:space-evenly;
+    position: relative;
+    top: 10vh;
+    z-index: 1;
+}
+
+.svg {
+    position: absolute;
+    bottom: 0;
+    z-index: 0;
+    width: 100vw;
+}
