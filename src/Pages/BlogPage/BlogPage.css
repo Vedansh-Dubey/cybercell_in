@@ -1,0 +1,6 @@
+.blogPage{
+    position: relative;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+}

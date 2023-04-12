@@ -1,0 +1,117 @@
+/* Styles for desktop screens */
+.blogDetail_Wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 25px;
+    flex-direction: row;
+    max-width: 880px;
+
+  }
+
+  .blog-img{
+    width: 275px;
+  }
+  
+  .blogHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .blogImage {
+    width: 525px;
+    height: 315px;
+    object-fit: cover;
+    border-radius: 7.5px;
+    -webkit-border-radius: 7.5px;
+    -moz-border-radius: 7.5px;
+    -ms-border-radius: 7.5px;
+    -o-border-radius: 7.5px;
+}
+  
+  .blogSubSection {
+    width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: gray;
+    align-items: baseline;
+    font-size: 12px;
+    padding-block: 5px;
+  }
+  
+
+  
+.authorName{
+    color: rgb(120, 117, 117);
+    display: flex;
+    gap: 7px;
+    align-items: center;
+
+}
+
+.publishedOn{
+    color: rgb(120, 117, 117);
+    display: flex;
+    gap: 7px;
+    align-items: center;
+
+}
+  
+  .blogContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    margin-left: 20px;
+    text-align: justify;
+  }
+  .contentSection {
+    font-size: 18px;
+    line-height: 1.5;
+    padding-inline: 7px;
+}
+
+  .blogTitle {
+    font-size: 36px;
+    padding-bottom: 15px;
+    padding-top: 10px;
+    text-align: center;
+  }
+
+  /* Styles for smaller screens */
+  @media (max-width: 768px) {
+    .blogDetail_Wrapper {
+      padding: 20px;
+    }
+  
+    .blogHeader {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .blogImage {
+      width: 100%;
+      height: auto;
+    }
+  
+    .blogContent {
+      margin-left: 0;
+      width: 100%
+    }
+    .blogSubSection{
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        color: gray;
+        align-items: baseline;
+        font-size: smaller;
+    }
+  
+    .blogTitle {
+      font-size: 30px;
+    }
+  }
+  

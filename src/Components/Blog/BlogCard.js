@@ -24,9 +24,10 @@ const BlogCard = () => {
                 const response2 = await client.getEntries()
                 setPostArray(response2.items)
                 const response = await client.getEntries({
-                    limit: 6,
-                    skip: (currentPage - 1) * 6,
+                    limit: 5,
+                    skip: (currentPage - 1) * 5,
                 })
+                console.log(blogPosts)
                 setBlogPosts(response.items)
             } catch (error) {
                 console.log(`Error fetching entries ${error}`);
@@ -39,7 +40,7 @@ const BlogCard = () => {
 
 
     return (
-        <div>
+        <div className="main-container">
             <div className='blog-card-container'>
                 {blogPosts?.map((post) => (
                     <div className="blog-card" key={post.sys.id}>
@@ -58,7 +59,7 @@ const BlogCard = () => {
                             <h1>{post.fields.title}</h1>
                             <p>{post.fields.coverText}</p>
                             <p className="read-more">
-                                <Link to={`/blogs/BlogDetails/${post.sys.id}`}>Read More</Link>
+                                <Link to={`/blogs/${post.sys.id}`}>Read More</Link>
                             </p>
                         </div>
                     </div>
@@ -67,7 +68,7 @@ const BlogCard = () => {
             <Stack spacing={2}>
                 <Pagination
                     className='paginate' 
-                    count={Math.ceil(size / 6)} 
+                    count={Math.ceil(size / 5)} 
                     color="primary" 
                     page={currentPage} 
                     onChange={(event, value) => {
