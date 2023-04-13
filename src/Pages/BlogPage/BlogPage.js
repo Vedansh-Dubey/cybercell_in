@@ -1,12 +1,11 @@
 import React from 'react'
 import BlogCard from '../../Components/Blog/BlogCard'
 import './BlogPage.css';
-import CardSlider from '../../Components/Blog/BlogCarousel';
-import { SimpleSlider } from '../../Components/Blog/Slider/slider';
+import RecentPost from '../../Components/Blog/RecentPost';
 const BlogPage = () => {
   return (
     <div className="blogPage">
-              <SimpleSlider/>
+              <RecentPost/>
               <BlogCard/>
     </div>
   )
