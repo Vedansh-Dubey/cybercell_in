@@ -7,6 +7,7 @@ import { useInView } from "react-intersection-observer";
 import WhatWeBring from '../../Components/WhatWeBringToYou/WhatWeBring.js';
 
 const Services = () => {
+
     const services = [
         {
             title: 'Penetration Testing',

@@ -29,6 +29,9 @@
  }
  
  .card-button {
+  display:flex;
+  justify-content: center;
+  align-items: center;
   transform: translate(-50%, 125%);
   width: 70%;
   height: 15%;
@@ -41,6 +44,8 @@
   position: absolute;
   left: 50%;
   bottom: 0;
+  text-decoration:none;
+  justify-content: center;
   opacity: 0;
   transition: 0.2s ease-out;
   -webkit-transition: 0.2s ease-out;

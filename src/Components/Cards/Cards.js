@@ -2,7 +2,7 @@ import React from 'react';
 import './Cards.css';
 import { useInView } from "react-intersection-observer";
 import { motion } from 'framer-motion';
-
+import {Link} from 'react-router-dom';
 
 const Card = ({ title, body }) => {
   const { ref, inView } = useInView({ threshold: 0 });
@@ -17,7 +17,7 @@ const Card = ({ title, body }) => {
         <hr className='hr1'/>
         <p className="text-body">{body}</p>
       </div>
-      <button className="card-button">More info</button>
+      <Link to='/contact' className="card-button">More info</Link>
     </motion.div>
   );
 };
