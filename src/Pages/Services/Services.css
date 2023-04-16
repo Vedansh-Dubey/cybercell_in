@@ -8,10 +8,11 @@
 
 .header {
     position: relative;
-    top: 5vh;
+    top: 2vh;
     text-align: center;
     color: aliceblue;
 }
+
 
 
 
@@ -24,10 +25,15 @@
 }
 
 .services_heading {
-
+    
     font-size: 8.5vw;
     font-weight: bold;
-    margin-bottom: 10px;
+    margin-bottom: 3px;
+}
+@media only screen and (min-width: 767px){
+.services_heading{
+    font-size: 6.5vw;
+}
 }
 
 .services_heading:first-letter {

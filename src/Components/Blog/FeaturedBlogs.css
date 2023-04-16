@@ -1,28 +1,23 @@
-*::-webkit-scrollbar {
-  width: 5px;
-  height:0px;
-  background-color: white;
-  }
-  
-*::-webkit-scrollbar-thumb {
-    background-color: #0099ff;
-    border-radius:5px  ;
-    -webkit-border-radius:5px  ;
-    -moz-border-radius:5px  ;
-    -ms-border-radius:5px  ;
-    -o-border-radius:5px  ;
-}
-
-.recentPostWrapper{
+.featuredPostWrapper{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: fit-content;
+    height:fit-content;
     /* justify-content: center; */
 }
 
-.recentPostWrapperHeading{
+.featured-hr{
+    width: 75px;
+    height: 4px;
+    border: #0099ff;
+    background: #0099ff;
+    margin: auto;
+}
+
+.featuredPostWrapperHeading{
     align-self: center;
-    padding-block-start: 10px;
+    padding-block: 10px;
     font-size: xx-large;
 }
 
@@ -32,20 +27,20 @@
     gap: 15px;
     width: 100vw;
     overflow-x: scroll;
-    padding-inline: 15px;
-    padding-block: 10px;
     
 }
-
+.postWrapper::-webkit-scrollbar {
+    display: none;
+  }
   
 
 
-.recentPost{
-    width: 325px;
-    flex-basis: 325px;
+.featuredPost{
+    width: 350px;
+    flex-basis: 350px;
     flex-shrink: 0;
     justify-content: space-evenly;
-    height: 215px;
+    height: 225px;
     padding-top: 20px;
     text-align: center;
     position: relative;
@@ -57,7 +52,7 @@
     -o-transition: 0.3s ease-out;
 }
 
-.recentPost:hover{
+.featuredPost:hover{
     scale: 103%;
 }
 
@@ -73,7 +68,7 @@
 }
   
   .bg-image {
-    filter: brightness(50%);
+    filter: brightness(70%);
     z-index: -1;
     object-fit: cover;
     width: 100%;
@@ -83,7 +78,7 @@
     -moz-border-radius: 5px;
     -ms-border-radius: 5px;
     -o-border-radius: 5px;
-    -webkit-filter: brightness(50%);
+    -webkit-filter: brightness(70%);
 }
   
   .recentPostHeading{
@@ -98,4 +93,3 @@
     width: 90%;
     padding: 5px;
 }
-  

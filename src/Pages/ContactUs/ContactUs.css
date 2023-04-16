@@ -1,0 +1,88 @@
+.ContactPage{
+    position: relative;
+    top: 10vh;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(0, 0, 0, 0.888);
+    min-height: 100vh;
+}
+
+.WrapperSmall{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+}
+
+.ContactTitle{
+    font-size: 3rem;
+    font-weight: bold;
+    text-align: center;
+    color: #ffffff;
+    padding-top: 10px;
+}
+
+
+.ContactTitle::first-letter{
+    color: #0099ff;
+}
+
+.Contact-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    padding-top: 20px;
+    gap: 15px;
+}
+
+.Contact-img{
+    width: 550px
+}
+
+@media(max-width: 768px){
+    .Contact-img{
+        width: 95vw;
+    }
+}
+
+.Contact-icon{
+    color : #0099ff;
+    padding:0px;
+    border: 1.5px solid #0099ff;
+    border-radius: 100px;
+    color: #0099ff;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    width: 60px;
+}
+
+.Contact-small-subhead{
+    color: white;
+    font-weight: 500;
+}
+
+.Contact-small-subheading-2{
+    color: white;
+    font-weight: 100;
+}
+
+.ContactSmall{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    gap: 60px;
+    align-items: center;
+    padding-block: 50px;
+    text-align: center;
+    padding-inline: 40px;
+}
+
+.SmallContact-link{
+    text-decoration: none;
+    font-style: normal;
+}

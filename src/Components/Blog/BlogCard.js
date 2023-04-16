@@ -24,6 +24,8 @@ const BlogCard = () => {
                 const response2 = await client.getEntries()
                 setPostArray(response2.items)
                 const response = await client.getEntries({
+                    content_type: "blog",
+                    order: '-fields.title',
                     limit: 5,
                     skip: (currentPage - 1) * 5,
                 })

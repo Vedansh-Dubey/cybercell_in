@@ -40,7 +40,30 @@
     bottom: 0;
 }
 
-@media only screen and (max-width: 768px) {
+
+.hero-h3{
+    opacity: 1;
+    transform: none;
+    color: white;
+    text-align: center;
+    font-size: 1.5rem;
+    padding-block-start: 30px;
+    padding-inline: 15px;
+    font-weight: 100;
+    font-style: italic;
+  }
+
+.victim-link{
+    color: rgb(255, 235, 197);
+    text-decoration: none;
+}
+
+.victim-link:hover{
+    color: #7fcbfe;
+    text-decoration:dotted;
+}
+
+@media only screen and (max-width: 767px) {
    .content{
     justify-self: center;
     justify-content: center;
@@ -52,12 +75,16 @@
 
     .hero-h2 {
         font-size: 1.2rem;
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
 
     .svg{
         width: 100vw;
         height: 95px;
+    }
+
+    .hero-h3{
+        font-size: 1.25rem;
     }
 }
 
@@ -68,7 +95,7 @@
   .button {
     display: flex;
     justify-content: center;
-    height: 50px;
+    height: 40px;
     position: relative;
     padding: 0 20px;
     font-size: 18px;
@@ -79,7 +106,7 @@
     border-radius: 12px;
     overflow: hidden;
     transition: 31ms cubic-bezier(.5, .7, .4, 1);
-    width: 200px;
+    width: 165px;
     align-items: center;
     align-self: center;
     position: relative;

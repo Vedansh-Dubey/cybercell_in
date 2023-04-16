@@ -6,7 +6,9 @@ import Services from './Pages/Services';
 import About from './Pages/About';
 import './App.css'
 import BlogPage from './Pages/BlogPage/BlogPage';
-import BlogDetails from './Components/Blog/BlogDetails';
+import BlogDetailPage from './Pages/BlogDetailPage/BlogDetailPage';
+import ContactUs from './Pages/ContactUs/ContactUs';
+
 function App() {
   return (
     <BrowserRouter>
@@ -15,8 +17,9 @@ function App() {
         <Route path="/" element={<Homepage/>} />
         <Route path="/services" element={<Services/>} />
         <Route path="/blogs" element={<BlogPage/>} />
-        <Route path="/blogs/:id" element={<BlogDetails/>} />
+        <Route path="/blogs/:id" element={<BlogDetailPage/>} />
         <Route path="/about" element={<About/>} />
+        <Route path="/contact" element={<ContactUs/>} />
       </Routes>
     </BrowserRouter>
   );

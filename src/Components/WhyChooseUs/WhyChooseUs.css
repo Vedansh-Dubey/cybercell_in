@@ -55,6 +55,19 @@
     float: left;
     width: 80%;
 }
+
+@media (max-width: 600px)
+{
+    .clearfix{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-block-start: 15px;
+    text-align: center;
+    }
+}
+
 service-3 .service-box .y-us-content h4 {
     color: #3a3a3a;
     font-size: 18px;

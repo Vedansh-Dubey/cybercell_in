@@ -54,6 +54,7 @@ function Navbar() {
 				<NavLink className="Links" activeClassName="active" to="/services">Services</NavLink>
 				<NavLink className="Links" activeClassName="active" to="/blogs">Blogs</NavLink>
 				<NavLink className="Links" activeClassName="active" to="/about">About Us</NavLink>
+				<NavLink className="Links" activeClassName="active" to="/contact">Contact Us</NavLink>
 				<button
 					className="nav-btn nav-close-btn"
 					onClick={showNavbar}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import "./Homepage.css";
+import { Link } from 'react-router-dom'; 
 
 import WhyChooseUs from '../../Components/WhyChooseUs/WhyChooseUs';
 // import Faq from '../../Components/FAQ/Faq.js';
@@ -54,7 +55,7 @@ const Homepage = () => {
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ duration: 1, delay: 1 }}
                 >
-                    One stop solution for cyber security. <br /> Protecting Your Digital World with Cutting-Edge Cybersecurity Solutions
+                    One stop solution for your cyber security problems.
                 </motion.h2>
                 <motion.button
                     className="button"
@@ -75,6 +76,13 @@ const Homepage = () => {
                     <i>o</i>
                     <i>w</i>
                 </motion.button>
+                <motion.h3 className='hero-h3'
+                    initial={{ y: 50, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    transition={{ duration: 1, delay: 1 }}
+                >
+             Experienced data breach, online fraud, or virus attack ? <br/> <Link className='victim-link' to='/contact'> Contact us immediately here.</Link> 
+                </motion.h3>
             </motion.div>
         </div>
         <WhyChooseUs />

@@ -2,9 +2,9 @@
 .blogDetail_Wrapper {
     display: flex;
     justify-content: center;
-    padding: 25px;
     flex-direction: row;
     max-width: 880px;
+    padding-top: 25px;
 
   }
 
