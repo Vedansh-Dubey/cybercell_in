@@ -42,8 +42,8 @@ const FeaturedBlogs = () => {
             <hr className='featured-hr'/>
             <div className='postWrapperfeatured'>
                 {blogPosts.map((post, index) => (
-                     <Link className='blogClick' to={`/blogs/${post.sys.id}`} onClick={handleScrollToTop}> 
-                    <div className="featuredPost" key={index}>
+                     <Link key={index} className='blogClick' to={`/blogs/${post.sys.id}`} onClick={handleScrollToTop}> 
+                    <div className="featuredPost" >
                         <img className='bg-image' src={post?.fields?.coverImage?.fields?.file?.url} alt={post.fields.title}></img>
                         <h2 className="recentPostHeading">{post.fields.title}</h2>
                     </div>

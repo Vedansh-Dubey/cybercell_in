@@ -17,6 +17,16 @@ function ContactForm() {
       });
   }
 
+  function validateMessage(event) {
+    const forbiddenChars = /<|>/g;
+    const message = event.target.value;
+    if (forbiddenChars.test(message)) {
+      event.target.setCustomValidity("Please don't use '<' or '>' in your message.");
+    } else {
+      event.target.setCustomValidity('');
+    }
+  }
+
 
   return (
     <div className="ContactCard">
@@ -28,7 +38,7 @@ function ContactForm() {
             id="name"
             placeholder=" "
             type="text"
-            required='true'
+            required
             minLength='2'
             maxLength='50'
           // onChange={(event) => setName(event.target.value)}
@@ -41,7 +51,7 @@ function ContactForm() {
             type="email"
             id="email"
             name="email"
-            required='true'
+            required
             title="Please enter a valid email address"
           // onChange={(event) => setEmail(event.target.value)}
           />
@@ -54,7 +64,7 @@ function ContactForm() {
             type="tel"
             id="phone"
             name="phone"
-            required='true'
+            required
             pattern="^(\\+91|0)?[6789]\d{9}$"
             title="Please enter a valid Indian phone number"
           // onChange={(event) => setPhone(event.target.value)}
@@ -70,7 +80,7 @@ function ContactForm() {
             rows="5"
             required='true'
             maxLength='1000'
-          // onChange={(event) => setMessage(event.target.value)}
+            onBlur={validateMessage}
           ></textarea>
           <label className='label' htmlFor="message">Message</label>
         </div>

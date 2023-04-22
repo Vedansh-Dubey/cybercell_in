@@ -42,8 +42,8 @@ const RecentPost = () => {
             <hr className='hr'/>
             <div className='postWrapper'>
                 {blogPosts.map((post, index) => (
-                  <Link className='blogClick' to={`/blogs/${post.sys.id}`} onClick={(handleScrollToTop)}>
-                    <div className="recentPost" key={index}>
+                  <Link className='blogClick'  key={index} to={`/blogs/${post.sys.id}`} onClick={(handleScrollToTop)}>
+                    <div className="recentPost">
                         <img className='bg-image' src={post?.fields?.coverImage?.fields?.file?.url} alt={post.fields.title}></img>
                         <h2 className="recentPostHeading">{post.fields.title}</h2>
                     </div>
