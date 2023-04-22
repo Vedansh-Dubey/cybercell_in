@@ -7,7 +7,7 @@ import WhyChooseUs from '../../Components/WhyChooseUs/WhyChooseUs';
 const Homepage = () => {
 
     return (
-        <><div className="hero-section">
+        <div className='home-wrapper'><div className="hero-section">
             <svg className='svg' viewBox="0 0 1440 320" preserveAspectRatio="none">
                 <motion.path
                     fill="#0099ff"
@@ -67,7 +67,7 @@ const Homepage = () => {
 
         </div>
             <WhyChooseUs />
-        </>
+        </div>
     );
 };
 

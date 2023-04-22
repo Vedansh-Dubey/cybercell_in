@@ -43,6 +43,7 @@ import React, { lazy, Suspense, useEffect } from 'react';
 import Navbar from './Components/Navbar';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
+import Footer from './Components/Footer/Footer';
 
 const Homepage = lazy(() => import('./Pages/Homepage'));
 const Services = lazy(() => import('./Pages/Services'));
@@ -75,6 +76,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<ContactUs />} />
         </Routes>
+        <Footer/>
       </Suspense>
     </BrowserRouter>
   );

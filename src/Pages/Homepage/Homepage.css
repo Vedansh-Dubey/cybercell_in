@@ -3,19 +3,23 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    min-height: 90vh;
     background-color: rgba(0, 0, 0, 0.888);
     position: relative;
     top: 10vh;
     width: 100vw;
 }
 
+.home-wrapper{
+padding-bottom: 50px;
+}
+
 .content{
     position: relative;
-    top: -10vh;
+    top: -8.5vh;
     display: flex;
     flex-direction: column;
-    gap: 17px;
+    gap: 15px;
     align-items: center;
 }
 
