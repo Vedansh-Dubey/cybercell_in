@@ -3,7 +3,7 @@ import './Footer.css';
 import { Link } from 'react-router-dom';
 const Footer = () => {
 
-    
+
     return (
         <div className='footer-wrapper'>
             <div className='footer-section-1'>
@@ -19,19 +19,22 @@ const Footer = () => {
                     </h3>
                     <ul className='aside-1-ul'>
                         <li className='aside-1-li'>
-                            Home
+                            <Link className='li-link' to='/'> Home </Link>
                         </li>
                         <li className='aside-1-li'>
-                            Reach Us
+                            <Link className='li-link' to='/contact'> Reach Us </Link>
                         </li>
                         <li className='aside-1-li'>
-                            Services we offer
+                            <Link className='li-link' to='/services'> Services we offer </Link>
+
                         </li>
                         <li className='aside-1-li'>
-                            Blogs
+                            <Link className='li-link' to='/blogs'> Blogs </Link>
+
                         </li>
                         <li className='aside-1-li'>
-                            About Us
+                            <Link className='li-link' to='/about'> About Us </Link>
+
                         </li>
                     </ul>
                 </div>
@@ -39,16 +42,21 @@ const Footer = () => {
                     <h3 className='aside-2-h3'>
                         Subscribe to our Newsletter
                     </h3>
-                    <div class="input-group">
-                        <input type="email" className="input" id="Email" name="Email" placeholder="mail@example.com" autocomplete="off" />
-                        <input className="button--submit" value="Subscribe" type="submit" />
+                    <div className="input-group">
+                        <form>
+                            <input type="email" className="input" id="Email" name="Email" placeholder="mail@example.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                            <button className="button--submit" type="submit">Subscribe</button>
+                        </form>
                     </div>
+
                 </div>
+
+
             </div>
             <div className='footer-section-2'>
                 <p className='footer-section-2-p'>
-                &copy; 2023 CyberCell. All rights reserved. |
-                <Link to='/'> Privacy Policy </Link >|<Link to='/'> Terms of Service </Link>
+                    &copy; 2023 CyberCell. All rights reserved. |
+                    <Link to='/'> Privacy Policy </Link >|<Link to='/'> Terms of Service </Link>
                 </p>
             </div>
         </div>

@@ -78,7 +78,7 @@ function ContactForm() {
             id="message"
             name="message"
             rows="5"
-            required='true'
+            required
             maxLength='1000'
             onBlur={validateMessage}
           ></textarea>
