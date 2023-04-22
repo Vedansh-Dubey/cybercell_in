@@ -8,45 +8,61 @@
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content:space-around;
+    justify-content: space-around;
     text-align: center;
-  }
-  
-  .footer-section-1 {
+}
+
+.footer-section-1 {
     padding-top: 10px;
     display: flex;
     flex-wrap: wrap-reverse;
     gap: 25px;
     justify-content: space-around;
     margin-bottom: 20px;
-  }
-  
-  .aside-1 {
+}
+
+.aside-1 {
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     flex: 2;
     min-width: 300px;
-  }
-  
-  .aside-1-h3 {
+}
+
+.aside-1-h3 {
     font-size: 24px;
     padding-bottom: 10px;
-  }
-  
-  .aside-1-p {
+}
+
+.dialog-content{
+    overflow-y: scroll;
+    padding: 10px;
+    text-align: justify;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.paragraph{
+    font-size: 16px;
+}
+
+/* .css-hyum1k-MuiToolbar-root {
+    justify-content: end;
+} */
+
+.aside-1-p {
     font-size: 14px;
     line-height: 1.5;
-  }
-  
-  .ul-heading {
-    text-align:center;
+}
+
+.ul-heading {
+    text-align: center;
     font-size: 24px;
     margin-top: 30px;
     margin-bottom: 10px;
-  }
-  
-  .aside-1-ul {
+}
+
+.aside-1-ul {
     display: flex;
     justify-content: space-around;
     flex-direction: row;
@@ -55,82 +71,82 @@
     margin: 0;
     flex-wrap: wrap;
     gap: 15px;
-  }
+}
 
 
-  .li-link{
+.li-link {
     color: white;
     text-decoration: none;
-  }
+}
 
-  .li-link:hover{
-    text-decoration:underline;
+.li-link:hover {
+    text-decoration: underline;
     color: #0099ff;
 }
 
-  @media(max-width: 530px){
-    .aside-1-ul{
+@media(max-width: 530px) {
+    .aside-1-ul {
         flex-direction: column;
         gap: 2.5px;
     }
-  }
-  
-  @media (max-width: 748px) and (min-width: 638px) {
-    .aside-1-ul {
-      flex-direction: column;
-      gap: 2.5px;
-    }
-  }
+}
 
-  .aside-1-li {
+@media (max-width: 748px) and (min-width: 638px) {
+    .aside-1-ul {
+        flex-direction: column;
+        gap: 2.5px;
+    }
+}
+
+.aside-1-li {
     font-size: 15px;
     margin-bottom: 10px;
     color: white;
-  }
-  
-  .aside-2 {
+}
+
+.aside-2 {
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
+}
 
-  .aside-2-h3 {
+
+.aside-2-h3 {
     font-size: 24px;
     margin-bottom: 15px;
-  }
-  
-  .footer-section-2 {
-    
+}
+
+.footer-section-2 {
+
     text-align: center;
     padding-top: 25px;
     letter-spacing: 1.5px;
-  }
-  
-  .footer-section-2-p {
+}
+
+.footer-section-2-p {
     font-size: 15px;
     margin-top: 20px;
-  }
-  
-  .footer-section-2-p a {
+}
+
+.footer-section-2-p a {
     color: #ffffff;
     text-decoration: none;
     margin: 0 5px;
-  }
-  
-  .footer-section-2-p a:hover {
+}
+
+.footer-section-2-p a:hover {
     text-decoration: underline;
-  }
-  
+}
+
 
 .input-group {
     display: flex;
     align-items: center;
-  }
-  
-  .input {
+}
+
+.input {
     min-height: 50px;
     max-width: 200px;
     padding: 0 1rem;
@@ -139,9 +155,9 @@
     border: 1px solid #5e4dcd;
     border-radius: 6px 0 0 6px;
     background-color: transparent;
-  }
-  
-  .button--submit {
+}
+
+.button--submit {
     min-height: 50px;
     padding: .5em 1em;
     border: none;
@@ -151,14 +167,14 @@
     font-size: 15px;
     cursor: pointer;
     transition: background-color .3s ease-in-out;
-  }
-  
-  .button--submit:hover {
+}
+
+.button--submit:hover {
     background-color: #5e5dcd;
-  }
-  
-  .input:focus, .input:focus-visible {
+}
+
+.input:focus,
+.input:focus-visible {
     border-color: #3898EC;
     outline: none;
-  }
-  
+}
