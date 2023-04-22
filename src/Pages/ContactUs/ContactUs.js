@@ -43,11 +43,11 @@ const ContactUs = () => {
         </div>
         </a>
 
-        <a href="https://maps.google.com/maps?q=Manish Nagar, Nagpur, Maharashtra, India" className='SmallContact-link'>
+        <a href="https://maps.google.com/maps?q=IT Park, Nagpur, Maharashtra, India" className='SmallContact-link'>
         <div className="WrapperSmall">
           <FontAwesomeIcon icon={faLocationArrow} className="Contact-icon" />
           <h3 className='Contact-small-subhead'>LOCATE US</h3>
-          <h4 className='Contact-small-subheading-2'>Manish Nagar, Nagpur <br />Maharashtra, India</h4>
+          <h4 className='Contact-small-subheading-2'>IT Park, Nagpur <br />Maharashtra, India</h4>
         </div>
         </a>
 
