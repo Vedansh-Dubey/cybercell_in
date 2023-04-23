@@ -67,7 +67,7 @@ const Footer = () => {
                     </h3>
                     <div className="input-group">
                         <form>
-                            <input type="email" className="input" id="Email" name="Email" placeholder="mail@example.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                            <input type="email" className="input" id="Email" name="Email" placeholder="abc@xyz.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
                             <button className="button--submit" type="submit">Subscribe</button>
                         </form>
                     </div>

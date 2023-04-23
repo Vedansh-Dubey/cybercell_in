@@ -8,8 +8,9 @@
     color: #ffffff;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: center;
     text-align: center;
+    align-items: center;
 }
 
 .footer-section-1 {
@@ -19,6 +20,14 @@
     gap: 25px;
     justify-content: space-around;
     margin-bottom: 20px;
+}
+
+@media (max-width:768px){
+    .footer-section-1{
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+    }
 }
 
 .aside-1 {
@@ -36,11 +45,12 @@
 
 .dialog-content{
     overflow-y: scroll;
-    padding: 10px;
+    padding-block: 10px;
     text-align: justify;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    padding-inline: 10px;
 }
 .paragraph{
     font-size: 16px;
@@ -148,8 +158,8 @@
 
 .input {
     min-height: 50px;
-    max-width: 200px;
-    padding: 0 1rem;
+    width: 50%;
+    padding: 0 0.5rem;
     color: #fff;
     font-size: 15px;
     border: 1px solid #5e4dcd;
@@ -159,7 +169,7 @@
 
 .button--submit {
     min-height: 50px;
-    padding: .5em 1em;
+    padding: .5em 0.5em;
     border: none;
     border-radius: 0 6px 6px 0;
     background-color: #5e4dcd;
