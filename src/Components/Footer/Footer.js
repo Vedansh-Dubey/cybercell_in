@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import './Footer.css';
 import { Link } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
@@ -18,24 +18,24 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const Footer = () => {
+
+
     const url = process.env.REACT_APP_MAILCHIMP_URL;
-
     const [email, setEmail] = useState('');
+    const [open, setOpen] = useState(false);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Perform any additional logic or API call here for form submission
-        alert('Thank you for Subscribing');
-        setEmail(''); // Clear the email input field after submission
-    }
+
+
+        const handleSubmit = (e) => {
+            e.preventDefault();
+            alert('Thank you for Subscribing Us !!');
+            setEmail('');
+        }
+
 
     const handleChange = (e) => {
         setEmail(e.target.value);
     }
-
-
-
-    const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -44,7 +44,6 @@ const Footer = () => {
     const handleClose = () => {
         setOpen(false);
     };
-
 
 
     return (
@@ -86,10 +85,6 @@ const Footer = () => {
                         Subscribe to our Newsletter
                     </h3>
                     <div className="input-group">
-                        {/* <form onSubmit={handleSubmit}>
-                            <input type="email" className="input" id="Email" name="Email" placeholder="abc@xyz.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onChange={handleChange} value={email}/>
-                            <button className="button--submit" type="submit">Subscribe</button>
-                        </form> */}
 
                         <MailchimpSubscribe
                             url={url}
@@ -114,7 +109,7 @@ const Footer = () => {
                                     </form>
                                     {/* Render status and message for feedback */}
                                     {status === 'sending' && <div>Sending...</div>}
-                                    {status === 'error' && <div dangerouslySetInnerHTML={{ __html: message }} />}
+                                    {status === 'error' && <div>Something Went Wrong ! </div>}
                                     {status === 'success' && <div>Subscribed!</div>}
                                 </div>
                             )}
@@ -129,6 +124,7 @@ const Footer = () => {
                 <p className='footer-section-2-p'>
                     &copy; 2023 CyberCell. All rights reserved. <br />
                     <Link onClick={handleClickOpen} > Privacy Policy </Link >
+
 
                     <Dialog
                         fullScreen
