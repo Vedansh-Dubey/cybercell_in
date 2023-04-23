@@ -38,12 +38,13 @@
 }
 
 .Contact-img{
-    width: 550px
+    width: 525px;
 }
 
 @media(max-width: 768px){
     .Contact-img{
-        width: 95vw;
+        width: 90vw;
+        height: auto;
     }
 }
 
