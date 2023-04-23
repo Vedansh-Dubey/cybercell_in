@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import './Footer.css';
 import { Link } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
@@ -8,7 +8,7 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import { DialogTitle } from '@mui/material';
-
+import MailchimpSubscribe from "react-mailchimp-subscribe";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -18,7 +18,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 const Footer = () => {
-
+    const url = process.env.REACT_APP_MAILCHIMP_URL;
 
     const [email, setEmail] = useState('');
 
@@ -34,7 +34,7 @@ const Footer = () => {
     }
 
 
-    
+
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -44,6 +44,8 @@ const Footer = () => {
     const handleClose = () => {
         setOpen(false);
     };
+
+
 
     return (
         <div className='footer-wrapper'>
@@ -84,10 +86,39 @@ const Footer = () => {
                         Subscribe to our Newsletter
                     </h3>
                     <div className="input-group">
-                        <form onSubmit={handleSubmit}>
+                        {/* <form onSubmit={handleSubmit}>
                             <input type="email" className="input" id="Email" name="Email" placeholder="abc@xyz.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onChange={handleChange} value={email}/>
                             <button className="button--submit" type="submit">Subscribe</button>
-                        </form>
+                        </form> */}
+
+                        <MailchimpSubscribe
+                            url={url}
+                            render={({ subscribe, status, message }) => (
+                                <div>
+                                    <form onSubmit={handleSubmit}>
+                                        <input
+                                            type="email"
+                                            className="input"
+                                            id="Email"
+                                            name="Email"
+                                            placeholder="abc@xyz.com"
+                                            autoComplete="off"
+                                            required
+                                            pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                                            onChange={handleChange}
+                                            value={email}
+                                        />
+                                        <button className="button--submit" type="submit" onClick={() => subscribe({ EMAIL: email })}>
+                                            Subscribe
+                                        </button>
+                                    </form>
+                                    {/* Render status and message for feedback */}
+                                    {status === 'sending' && <div>Sending...</div>}
+                                    {status === 'error' && <div dangerouslySetInnerHTML={{ __html: message }} />}
+                                    {status === 'success' && <div>Subscribed!</div>}
+                                </div>
+                            )}
+                        />
                     </div>
 
                 </div>
@@ -98,6 +129,7 @@ const Footer = () => {
                 <p className='footer-section-2-p'>
                     &copy; 2023 CyberCell. All rights reserved. <br />
                     <Link onClick={handleClickOpen} > Privacy Policy </Link >
+
                     <Dialog
                         fullScreen
                         open={open}
