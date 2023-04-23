@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import { useAnimation } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import WhatWeBring from '../../Components/WhatWeBringToYou/WhatWeBring.js';
-
+import { Helmet } from 'react-helmet';
 const Services = () => {
 
     const services = [
@@ -57,6 +57,10 @@ const Services = () => {
         initial="hidden"
         animate={controls}
         ref={ref}>
+           <Helmet>
+                <title>Our Services | Cybercell</title>
+                <meta name="description" content="We provide advanced cybersecurity solutions to safeguard your digital assets and protect against cyber threats. Trust Cybercell for expert services that ensure the confidentiality, integrity, and availability of your sensitive information." />
+            </Helmet>
           <h1 className='services_heading'>Our Services</h1>
           <hr className='hr' />
           <p className='services_paragraph'>We provide advanced cybersecurity solutions to safeguard your digital assets and protect against cyber threats. Trust Cybercell for expert services that ensure the confidentiality, integrity, and availability of your sensitive information.</p>

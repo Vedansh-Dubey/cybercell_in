@@ -3,11 +3,15 @@ import { motion } from 'framer-motion';
 import "./Homepage.css";
 import { Link } from 'react-router-dom';
 import WhyChooseUs from '../../Components/WhyChooseUs/WhyChooseUs';
-
+import { Helmet } from 'react-helmet';
 const Homepage = () => {
 
     return (
         <div className='home-wrapper'><div className="hero-section">
+            <Helmet>
+                <title>Cybercell - Your Trusted Cyber Security Partner</title>
+                <meta name="description" content="Welcome to Cybercell - your one-stop solution for all your cyber security problems. Protect yourself from data breaches, online fraud, and virus attacks. Contact us now!" />
+            </Helmet>
             <svg className='svg' viewBox="0 0 1440 320" preserveAspectRatio="none">
                 <motion.path
                     fill="#0099ff"

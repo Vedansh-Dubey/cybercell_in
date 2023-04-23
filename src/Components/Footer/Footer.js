@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './Footer.css';
 import { Link } from 'react-router-dom';
 import Dialog from '@mui/material/Dialog';
@@ -15,8 +15,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
+
+
 const Footer = () => {
 
+
+    const [email, setEmail] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // Perform any additional logic or API call here for form submission
+        alert('Thank you for Subscribing');
+        setEmail(''); // Clear the email input field after submission
+    }
+
+    const handleChange = (e) => {
+        setEmail(e.target.value);
+    }
+
+
+    
     const [open, setOpen] = React.useState(false);
 
     const handleClickOpen = () => {
@@ -66,8 +84,8 @@ const Footer = () => {
                         Subscribe to our Newsletter
                     </h3>
                     <div className="input-group">
-                        <form>
-                            <input type="email" className="input" id="Email" name="Email" placeholder="abc@xyz.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                        <form onSubmit={handleSubmit}>
+                            <input type="email" className="input" id="Email" name="Email" placeholder="abc@xyz.com" autoComplete="off" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" onChange={handleChange} value={email}/>
                             <button className="button--submit" type="submit">Subscribe</button>
                         </form>
                     </div>

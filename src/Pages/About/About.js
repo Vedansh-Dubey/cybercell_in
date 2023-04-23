@@ -1,11 +1,19 @@
 import React from 'react';
 import './About.css';
-
+import { Helmet } from 'react-helmet';
 const About = () => {
 
     
     return (
         <div className="about-container">
+             <Helmet>
+                {/* Title tag */}
+                <title>About Us | Cybercell</title>
+                {/* Meta description tag */}
+                <meta name="description" content="Learn more about CyberCell - a team of cybersecurity experts dedicated to protecting your online identity and providing high-quality cybersecurity services and solutions." />
+                {/* Canonical tag */}
+                <link rel="canonical" href="https://cybercell.in/about" />
+            </Helmet>
             <div className="about-header">
                 <h1>ABOUT CYBERCELL</h1>
                 <div className='about-subheader'>
