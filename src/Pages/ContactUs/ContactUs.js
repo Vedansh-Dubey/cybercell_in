@@ -44,7 +44,7 @@ const ContactUs = () => {
       </head>
       <h1 className='ContactTitle'>Contact Us</h1>
       <div className='Contact-header'>
-        <img className='Contact-img' src="https://i.ibb.co/Nt3ccLC/5127314-removebg-preview.png" alt="5127314-removebg-preview" border="0" />
+        <img className='Contact-img' src="https://i.ibb.co/Nt3ccLC/5127314-removebg-preview.png" alt="Customer Support" border="0" />
         <ContactForm className='contactform' />
       </div>
       <div className='ContactSmall'>

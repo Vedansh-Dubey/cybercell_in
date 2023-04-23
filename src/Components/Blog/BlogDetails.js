@@ -65,7 +65,7 @@ const BlogDetails = () => {
   return (
     <div className="blogDetail_Wrapper">
       <div className="blogHeader">
-        <img src={source} className='blogImage'></img>
+        <img src={source} className='blogImage' alt='Blog'></img>
         <div className='blogSubSection'>
           <h3 className='authorName'> <i className="fas fa-user"/>{singleBlogPost?.fields?.author}</h3>
           <h3 className='publishedOn'><i className="fas fa-calendar"/>{singleBlogPost?.fields?.datePublished}</h3>
