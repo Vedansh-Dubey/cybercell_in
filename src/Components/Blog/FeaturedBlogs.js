@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import "./BlogCard.scss";
 import { createClient } from "contentful";
-import { useEffect } from 'react';
 import './FeaturedBlogs.css';
 
 const FeaturedBlogs = () => {
@@ -10,7 +9,7 @@ const FeaturedBlogs = () => {
     const spaceId = process.env.REACT_APP_SPACE_ID;
     const apiKey = process.env.REACT_APP_API_KEY;
     const [blogPosts, setBlogPosts] = useState([]);
-    const client = createClient({ space: spaceId, accessToken: apiKey });
+    const client = useMemo(() => createClient({ space: spaceId, accessToken: apiKey }), [spaceId, apiKey]);
 
     useEffect(() => {
         const getEntries = async () => {
@@ -26,8 +25,10 @@ const FeaturedBlogs = () => {
                 console.log(`Error fetching entries ${error}`);
             }
         };
-        getEntries();
-    }, [])
+        if (blogPosts.length === 0) {
+            getEntries();
+        }
+    }, [client, blogPosts.length]);
 
     function handleScrollToTop() {
         window.scrollTo({

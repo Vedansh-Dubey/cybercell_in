@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./BlogCard.scss";
 import { createClient } from "contentful";
-import { useEffect } from 'react';
-
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
-
+import { useQuery } from 'react-query'; // Import useQuery function from react-query
 
 
 const BlogCard = () => {
@@ -15,30 +13,26 @@ const BlogCard = () => {
     const apiKey = process.env.REACT_APP_API_KEY;
 
     const [currentPage, setCurrentPage] = useState(1);
-    const [blogPosts, setBlogPosts] = useState([]);
-    const [postArray, setPostArray] = useState([]);
-    const client = createClient({ space: spaceId, accessToken: apiKey })
-    useEffect(() => {
-        const getEntries = async () => {
-            try {
-                const response2 = await client.getEntries()
-                setPostArray(response2.items)
-                const response = await client.getEntries({
-                    content_type: "blog",
-                    order: '-fields.title',
-                    limit: 5,
-                    skip: (currentPage - 1) * 5,
-                })
-                console.log(blogPosts)
-                setBlogPosts(response.items)
-            } catch (error) {
-                console.log(`Error fetching entries ${error}`);
-            }
-        };
-        getEntries();
-    }, [currentPage])
 
-    const size = postArray.length;
+    // Replace useState with useQuery for blogPosts and postArray
+    const { data: blogPosts } = useQuery(['blogPosts', currentPage], async () => {
+        const client = createClient({ space: spaceId, accessToken: apiKey });
+        const response = await client.getEntries({
+            content_type: "blog",
+            order: '-fields.title',
+            limit: 5,
+            skip: (currentPage - 1) * 5,
+        });
+        return response.items;
+    });
+
+    const { data: postArray } = useQuery('postArray', async () => {
+        const client = createClient({ space: spaceId, accessToken: apiKey });
+        const response2 = await client.getEntries();
+        return response2.items;
+    });
+
+    const size = postArray?.length || 0;
 
 
     return (
@@ -49,7 +43,7 @@ const BlogCard = () => {
                         <div className="meta">
                             <div className="photo" style={{ backgroundImage: `url(${post.fields.coverImage.fields.file.url})` }}></div>
                             <ul className="details">
-                                <li className="author"><a href="#">{post.fields.author}</a></li>
+                                <li className="author">{post.fields.author}</li>
                                 <li className="date">{new Intl.DateTimeFormat('en-GB', {
                                     month: 'long',
                                     day: '2-digit',

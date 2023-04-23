@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { createClient } from "contentful";
 import {useParams } from "react-router-dom";
 import { documentToReactComponents} from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import './BlogDetails.css';
-
-
+import { useQuery } from 'react-query';
 function BlogPost({ singleBlogPost }) {
   const options = {
     renderNode: {
@@ -43,29 +42,25 @@ function BlogPost({ singleBlogPost }) {
 
 
 const BlogDetails = () => {
-
-  const [singleBlogPost, setSingleBlogPost] = useState({})
-
-  let { id } = useParams();
-
+  const { id } = useParams();
   const spaceId = process.env.REACT_APP_SPACE_ID;
   const apiKey = process.env.REACT_APP_API_KEY;
-  const client = createClient({ space: spaceId, accessToken: apiKey })
+  const client = createClient({ space: spaceId, accessToken: apiKey });
 
-  useEffect(() => {
-    const getEntryById = async () => {
-      try {
-        await client.getEntry(id).then((entries) => {
-          setSingleBlogPost(entries)
-        })
-      } catch (error) {
-        console.log(`Error fetching authors ${error}`);
-      }
-    };
-    getEntryById()
-  }, [id])
+  const {
+    isError,
+    data: singleBlogPost,
+    error,
+  } = useQuery(['blogPost', id], () => client.getEntry(id), {
+    staleTime: 600000, // Cache duration in milliseconds (10 minutes)
+  });
 
   let source = singleBlogPost?.fields?.coverImage?.fields?.file?.url;
+
+
+  if (isError) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="blogDetail_Wrapper">
