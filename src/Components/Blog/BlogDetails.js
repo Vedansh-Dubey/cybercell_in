@@ -19,7 +19,7 @@ function BlogPost({ singleBlogPost }) {
         const { url, fileName, contentType } = node.data.target.fields.file;
         return <img className='blog-img' src={url} alt={fileName} contentType={contentType} />;
       },
-      [BLOCKS.UL_LIST]: (node, children) => <ul>{children}</ul>,
+      [BLOCKS.UL_LIST]: (node, children) => <ul className='details-ul'>{children}</ul>,
       [BLOCKS.OL_LIST]: (node, children) => <ol>{children}</ol>,
       [BLOCKS.LIST_ITEM]: (node, children) => <li>{children}</li>,
       [BLOCKS.QUOTE]: (node, children) => <blockquote>{children}</blockquote>,

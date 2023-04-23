@@ -69,9 +69,20 @@
     text-align: justify;
   }
   .contentSection {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 1.5;
     padding-inline: 7px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.details-ul{
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
   .blogTitle {
