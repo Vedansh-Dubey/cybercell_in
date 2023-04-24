@@ -11,6 +11,7 @@ const BlogDetailPage = () => {
         <div className="blogPage">
             <Helmet>
                 <title>Blogs | Cybercell</title>
+                <meta name='keywords' content='Cybersecurity Blogs, Cybercell News, VAPT'/>
                 <meta name="description" content="Discover in-depth insights, expert articles, featured blogs, and recent posts on the Blog Detail Page of CyberCell. Stay informed and empowered with our valuable content." />
             </Helmet>
 

@@ -60,6 +60,8 @@ const Services = () => {
            <Helmet>
                 <title>Our Services | Cybercell</title>
                 <meta name="description" content="We provide advanced cybersecurity solutions to safeguard your digital assets and protect against cyber threats. Trust Cybercell for expert services that ensure the confidentiality, integrity, and availability of your sensitive information." />
+                <meta name='keywords' content='Cyber Services, VAPT, Cyber Security, Cybersecurity Consultancy'/>
+                <link rel="canonical" href="https://cybercell.in/services" />
             </Helmet>
           <h1 className='services_heading'>Our Services</h1>
           <hr className='hr' />

@@ -11,6 +11,8 @@ const Homepage = () => {
             <Helmet>
                 <title>Cybercell - Your Trusted Cyber Security Partner</title>
                 <meta name="description" content="Welcome to Cybercell - your one-stop solution for all your cyber security problems. Protect yourself from data breaches, online fraud, and virus attacks. Contact us now!" />
+                <meta name='keywords' content='Cybercell, Cyber Security, Cybercell India, Cyber Complaint, Cyber fraud complaint'/>
+                <link rel="canonical" href="https://cybercell.in" />
             </Helmet>
             <svg className='svg' viewBox="0 0 1440 320" preserveAspectRatio="none">
                 <motion.path

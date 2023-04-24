@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import Navbar from './Components/Navbar';
-import { HashRouter, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import Homepage from './Pages/Homepage';
 import Services from './Pages/Services';
 import About from './Pages/About';
@@ -23,7 +23,7 @@ function ScrollToTop() {
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Navbar />
       <ScrollToTop />
       <Routes>
@@ -35,7 +35,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
       </Routes>
       <Footer />
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 

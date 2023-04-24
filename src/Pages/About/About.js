@@ -10,6 +10,7 @@ const About = () => {
                 {/* Title tag */}
                 <title>About Us | Cybercell</title>
                 {/* Meta description tag */}
+                <meta name='keywords' content='About Cybercell, Cybercell, About Us, Vibhum Dubey'/>
                 <meta name="description" content="Learn more about CyberCell - a team of cybersecurity experts dedicated to protecting your online identity and providing high-quality cybersecurity services and solutions." />
                 {/* Canonical tag */}
                 <link rel="canonical" href="https://cybercell.in/about" />
