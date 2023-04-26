@@ -33,6 +33,7 @@ function App() {
         <Route path="/blogs/:id" element={<BlogDetailPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<ContactUs />} />
+        <Route path="*" element={<Homepage />} />
       </Routes>
       <Footer />
     </BrowserRouter>

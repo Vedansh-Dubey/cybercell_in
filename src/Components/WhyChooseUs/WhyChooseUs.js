@@ -4,7 +4,7 @@ import {
     faShieldAlt,
     faLeaf,
     faPalette,
-    faShieldHalved,
+    faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import "./WhyChooseUs.css"
 
@@ -45,7 +45,7 @@ const WhyChooseUs = () => {
                                 <div className="service-box">
                                     <div className="clearfix">
                                         <div className="iconset">
-                                            <FontAwesomeIcon icon={faShieldHalved} className="icon" />
+                                            <FontAwesomeIcon icon={faEdit} className="icon" />
                                         </div>
                                         <div className="y-us-content">
                                             <h4>Customized solutions</h4>
