@@ -52,7 +52,7 @@ function Navbar() {
 			<nav ref={navRef}>
 				<NavLink className="Links" activeclassname="active" to="/">Home</NavLink>
 				<NavLink className="Links" activeclassname="active" to="/services">Services</NavLink>
-				<NavLink className="Links" activeclassname="active" to="/blogs">Blogs</NavLink>
+				{/* <NavLink className="Links" activeclassname="active" to="/blogs">Blogs</NavLink> */}
 				<NavLink className="Links" activeclassname="active" to="/about">About Us</NavLink>
 				<NavLink className="Links" activeclassname="active" to="/contact">Contact Us</NavLink>
 				<button

@@ -70,10 +70,10 @@ const Footer = () => {
                             <Link className='li-link' to='/services'> Services we offer </Link>
 
                         </li>
-                        <li className='aside-1-li'>
+                        {/* <li className='aside-1-li'>
                             <Link className='li-link' to='/blogs'> Blogs </Link>
 
-                        </li>
+                        </li> */}
                         <li className='aside-1-li'>
                             <Link className='li-link' to='/about'> About Us </Link>
 
