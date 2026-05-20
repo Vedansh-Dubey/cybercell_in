@@ -42,9 +42,13 @@ export async function fetchNewsPage(page = 0, limit = 30): Promise<NewsPage> {
   }
 
   try {
+    const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY
     const res = await fetch(
       `${supabaseUrl}/functions/v1/fetch-news?page=${page}&limit=${limit}`,
-      { signal: AbortSignal.timeout(12000) },
+      {
+        signal: AbortSignal.timeout(12000),
+        headers: supabaseKey ? { Authorization: `Bearer ${supabaseKey}` } : {},
+      },
     )
     if (!res.ok) return { items: [], page, total: 0, hasMore: false }
 

@@ -30,7 +30,7 @@ export function BlogDetailPage() {
   if (!post) return (
     <div style={{ padding: '80px 28px', maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
       <p style={{ color: 'var(--text-3)' }}>Article not found.</p>
-      <button className="btn btn-ghost" style={{ marginTop: 16 }} onClick={() => navigate('/news')}>
+      <button className="btn btn-ghost btn-sm" style={{ marginTop: 16 }} onClick={() => navigate('/news')}>
         ← Back to News &amp; Blog
       </button>
     </div>
@@ -62,11 +62,12 @@ export function BlogDetailPage() {
           </button>
         </div>
 
-        {/* Chips */}
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
-          <span className="chip ok">Featured</span>
-          <span className="chip accent">Cybercell Research</span>
-          <span className="chip">{post.readingTime} min read</span>
+        {/* Meta line */}
+        <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap', marginBottom: 20, fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+          {post.featured && <><span style={{ color: '#86efac' }}>Featured</span><span>·</span></>}
+          <span>Cybercell Research</span>
+          <span>·</span>
+          <span>{post.readingTime} min read</span>
         </div>
 
         {/* Title */}
@@ -79,20 +80,15 @@ export function BlogDetailPage() {
           {post.excerpt}
         </p>
 
-        {/* Byline */}
-        <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 13, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', flexWrap: 'wrap' }}>
-          <Icons.user size={12} />
+        {/* Byline + tags */}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 12, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', flexWrap: 'wrap', letterSpacing: '0.04em' }}>
           <span>{post.author}</span>
           <span>·</span>
           <span>{formatDate(post.date)}</span>
+          {post.tags.length > 0 && (
+            <><span>·</span><span>{post.tags.join(', ')}</span></>
+          )}
         </div>
-
-        {/* Tags */}
-        {post.tags.length > 0 && (
-          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '16px 0 0' }}>
-            {post.tags.map(t => <span key={t} className="chip">#{t}</span>)}
-          </div>
-        )}
 
         {/* Cover image — below header so it doesn't dominate */}
         {post.coverImage && (

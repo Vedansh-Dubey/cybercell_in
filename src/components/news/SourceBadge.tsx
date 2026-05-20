@@ -11,11 +11,7 @@ export function SourceBadge({ source, sourceSlug }: SourceBadgeProps) {
   return (
     <span
       className="chip"
-      style={{
-        color,
-        borderColor: `${color}40`,
-        background: `${color}15`,
-      }}
+      style={{ color }}
     >
       {source}
     </span>

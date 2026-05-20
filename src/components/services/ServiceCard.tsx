@@ -51,8 +51,8 @@ export function ServiceCard({ service, index, showVisual = false }: ServiceCardP
       <p className="desc" style={{ marginTop: 8 }}>{service.short}</p>
 
       <div className="meta">
-        {service.tags.slice(0, 3).map(t => (
-          <span key={t} className="chip">{t}</span>
+        {service.tags.slice(0, 3).map((t, i, arr) => (
+          <span key={t} className="chip">{t}{i < arr.length - 1 ? ' /' : ''}</span>
         ))}
       </div>
 

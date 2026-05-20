@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { BlogPost } from '../../types/blog'
-import { Icons } from '../ui/Icon'
 import { Cover } from './Cover'
+import { Icons } from '../ui/Icon'
 import { useHoverLight } from '../../hooks/useHoverLight'
 import { formatDate } from '../../lib/utils'
 
@@ -35,27 +35,26 @@ export function BlogCard({ post, index = 0, featured = false }: BlogCardProps) {
         />
       </div>
       <div className="body">
-        <div className="meta-row" style={{ marginBottom: 8 }}>
-          {post.featured && <span className="chip ok">Featured</span>}
-          <span className="chip accent">Blog</span>
-          <span>·</span>
-          <span>{post.readingTime} min read</span>
+        <div className="meta-row" style={{ marginBottom: 10 }}>
+          {post.featured && <span style={{ color: '#86efac', fontFamily: 'var(--font-mono)', fontSize: 10, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Featured</span>}
+          {post.featured && <span style={{ color: 'var(--text-3)' }}>·</span>}
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>{post.readingTime} min read</span>
         </div>
         <h3 className="card">{post.title}</h3>
         <p className="excerpt">{post.excerpt}</p>
         <div className="meta-row" style={{ marginTop: 14, paddingTop: 14, borderTop: '1px solid var(--line)' }}>
-          <Icons.user size={12} />
-          <span>{post.author}</span>
-          <span>·</span>
-          <span>{formatDate(post.date)}</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)' }}>{post.author}</span>
+          <span style={{ color: 'var(--text-3)' }}>·</span>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)' }}>{formatDate(post.date)}</span>
+          {post.tags.length > 0 && (
+            <>
+              <span style={{ color: 'var(--text-3)' }}>·</span>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: 11, color: 'var(--text-3)', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                {post.tags.slice(0, 2).join(', ')}
+              </span>
+            </>
+          )}
         </div>
-        {post.tags.length > 0 && (
-          <div style={{ display: 'flex', gap: 6, marginTop: 10, flexWrap: 'wrap' }}>
-            {post.tags.slice(0, 3).map(t => (
-              <span key={t} className="chip">#{t}</span>
-            ))}
-          </div>
-        )}
       </div>
     </Link>
   )

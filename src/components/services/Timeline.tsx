@@ -8,7 +8,7 @@ export function Timeline() {
     <div className="phase-timeline" style={{ position: 'relative' }}>
       <div className="rail" />
       <div className="phase-grid">
-        {ENGAGEMENT_PHASES.map((phase, i) => (
+        {ENGAGEMENT_PHASES.map((phase: typeof ENGAGEMENT_PHASES[number], i: number) => (
           <div key={i} className="reveal" style={{ transitionDelay: `${i * 80}ms` }}>
             <div className="phase-node" />
             <div className="card" onMouseMove={onCardMove}>

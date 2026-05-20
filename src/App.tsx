@@ -4,11 +4,11 @@ import { Layout } from './components/layout/Layout'
 import { EmergencyDrawer } from './components/contact/EmergencyDrawer'
 import { CardSkeleton } from './components/ui/Skeleton'
 
-const HomePage      = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })))
-const ServicesPage  = lazy(() => import('./pages/ServicesPage').then(m => ({ default: m.ServicesPage })))
-const NewsPage      = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })))
+const HomePage       = lazy(() => import('./pages/HomePage').then(m => ({ default: m.HomePage })))
+const ServicesPage   = lazy(() => import('./pages/ServicesPage').then(m => ({ default: m.ServicesPage })))
+const NewsPage       = lazy(() => import('./pages/NewsPage').then(m => ({ default: m.NewsPage })))
 const BlogDetailPage = lazy(() => import('./pages/BlogDetailPage').then(m => ({ default: m.BlogDetailPage })))
-const ContactPage   = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })))
+const ContactPage    = lazy(() => import('./pages/ContactPage').then(m => ({ default: m.ContactPage })))
 
 function PageFallback() {
   return (
@@ -31,7 +31,9 @@ export function App() {
             <Route path="/services" element={<ServicesPage />} />
             <Route path="/news" element={<NewsPage />} />
             <Route path="/news/:slug" element={<BlogDetailPage />} />
-            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/blog" element={<Navigate to="/news" replace />} />
+            <Route path="/blog/:slug" element={<BlogDetailPage />} />
+            <Route path="/contact" element={<ContactPage onReport={() => setDrawerOpen(true)} />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </Suspense>

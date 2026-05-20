@@ -54,10 +54,10 @@ export function Footer() {
               Practice
             </h5>
             <Link to="/services" className="footer-link">All services</Link>
-            <Link to="/services" className="footer-link">Penetration testing</Link>
-            <Link to="/services" className="footer-link">Incident response</Link>
-            <Link to="/services" className="footer-link">OSINT investigations</Link>
-            <Link to="/services" className="footer-link">Awareness training</Link>
+            <Link to="/services#pentest" className="footer-link">Penetration testing</Link>
+            <Link to="/services#ir" className="footer-link">Incident response</Link>
+            <Link to="/services#osint" className="footer-link">OSINT investigations</Link>
+            <Link to="/services#awareness" className="footer-link">Awareness training</Link>
           </div>
 
           {/* Resources column */}
@@ -75,9 +75,8 @@ export function Footer() {
             >
               Resources
             </h5>
-            <Link to="/news" className="footer-link">News feed</Link>
-            <Link to="/blog" className="footer-link">Blog</Link>
-            <Link to="/news" className="footer-link">Threat intel</Link>
+            <Link to="/news" className="footer-link">News &amp; Blog</Link>
+            <Link to="/news?category=threat-intel" className="footer-link">Threat intel</Link>
             <Link to="/contact" className="footer-link">Report cyber fraud</Link>
             <Link to="/contact" className="footer-link">Emergency contacts</Link>
           </div>

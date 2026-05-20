@@ -1,7 +1,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { XMLParser } from 'npm:fast-xml-parser'
 
-const ALLOWED_ORIGINS = ['https://cybercell.in', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
+const ALLOWED_ORIGINS = ['https://cybercell.in', 'https://www.cybercell.in', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
 const DEFAULT_PAGE_SIZE = 30
 const REFRESH_INTERVAL_MS = 12 * 60 * 60 * 1000 // 12 hours
 
@@ -233,17 +233,6 @@ Deno.serve(async (req) => {
 
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: cors(origin) })
-  }
-
-  // ── Auth: require valid Supabase anon key ──────────────────────────────────
-  const expectedKey = Deno.env.get('SUPABASE_ANON_KEY')
-  const authHeader  = req.headers.get('Authorization') ?? ''
-  const callerKey   = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
-  if (!expectedKey || callerKey !== expectedKey) {
-    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-      status: 401,
-      headers: { ...cors(origin), 'Content-Type': 'application/json' },
-    })
   }
 
   const supabase = createClient(

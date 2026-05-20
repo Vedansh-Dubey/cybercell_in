@@ -81,7 +81,7 @@ export function BlogListPage() {
 
       <section style={{ padding: '0 0 80px' }}>
         <div className="container">
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 40 }} role="group" aria-label="Filter by tag">
+          <div className="pill-row" style={{ marginBottom: 40 }} role="group" aria-label="Filter by tag">
             {allTags.map(t => (
               <button
                 key={t}
@@ -103,7 +103,7 @@ export function BlogListPage() {
               icon={<Icons.book size={28} />}
               title="No articles found"
               description="Try a different tag or search term."
-              action={<button className="btn btn-ghost" onClick={() => { setQuery(''); setTag('All') }}>Clear filters</button>}
+              action={<button className="btn btn-ghost btn-sm" onClick={() => { setQuery(''); setTag('All') }}>Clear filters</button>}
             />
           ) : (
             <>

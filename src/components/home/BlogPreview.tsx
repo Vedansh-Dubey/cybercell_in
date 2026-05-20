@@ -27,17 +27,17 @@ export function BlogPreview() {
             <span className="eyebrow">Insight &amp; analysis</span>
             <h2 className="section" style={{ margin: '10px 0 0' }}>Perspectives from the practice.</h2>
           </div>
-          <Link to="/blog" className="btn btn-ghost" style={{ gap: 6 }}>
+          <Link to="/news" className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
             All articles <Icons.arrow size={14} />
           </Link>
         </div>
 
         {loading ? (
-          <div className="article-grid">
+          <div className="blog-grid">
             {[0, 1, 2].map(i => <CardSkeleton key={i} />)}
           </div>
         ) : (
-          <div className="article-grid">
+          <div className="blog-grid">
             {posts.map((post, i) => (
               <BlogCard key={post.slug} post={post} index={i} />
             ))}

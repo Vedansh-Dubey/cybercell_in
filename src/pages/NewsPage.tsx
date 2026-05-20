@@ -192,14 +192,14 @@ export function NewsPage() {
               icon={<Icons.alert size={28} />}
               title="Feeds temporarily unavailable"
               description="News aggregation failed. Please try again in a moment."
-              action={<button className="btn btn-ghost" onClick={() => window.location.reload()}>Retry</button>}
+              action={<button className="btn btn-ghost btn-sm" onClick={() => window.location.reload()}>Retry</button>}
             />
           ) : !hasContent ? (
             <EmptyState
               icon={<Icons.search size={28} />}
               title="No results"
               description="Switch to a different tab."
-              action={<button className="btn btn-ghost" onClick={() => setTab('all')}>Show all</button>}
+              action={<button className="btn btn-ghost btn-sm" onClick={() => setTab('all')}>Show all</button>}
             />
           ) : (
             <div className="news-grid">

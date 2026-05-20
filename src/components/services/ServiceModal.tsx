@@ -89,8 +89,8 @@ export function ServiceModal({ service, onClose }: ServiceModalProps) {
             </ul>
 
             <div style={{ display: 'flex', gap: 6, marginTop: 24, flexWrap: 'wrap' }}>
-              {service.tags.map(t => (
-                <span key={t} className="chip">{t}</span>
+              {service.tags.map((t, i, arr) => (
+                <span key={t} className="chip">{t}{i < arr.length - 1 ? ' /' : ''}</span>
               ))}
             </div>
           </div>

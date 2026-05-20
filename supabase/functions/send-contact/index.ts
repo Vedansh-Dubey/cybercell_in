@@ -1,7 +1,7 @@
 import { Resend } from 'npm:resend'
 import { createClient } from 'npm:@supabase/supabase-js@2'
 
-const ALLOWED_ORIGINS = ['https://cybercell.in', 'http://localhost:5173']
+const ALLOWED_ORIGINS = ['https://cybercell.in', 'https://www.cybercell.in', 'http://localhost:5173']
 
 // ─── Field length limits ───────────────────────────────────────────────────────
 const LIMITS = {

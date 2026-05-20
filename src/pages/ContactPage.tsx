@@ -1,13 +1,15 @@
 import { useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { ContactForm } from '../components/contact/ContactForm'
-import { EmergencyDrawer } from '../components/contact/EmergencyDrawer'
 import { Toast } from '../components/ui/Toast'
 import { Icons } from '../components/ui/Icon'
 import { buildMeta } from '../lib/seo'
 
-export function ContactPage() {
-  const [drawerOpen, setDrawerOpen] = useState(false)
+interface ContactPageProps {
+  onReport: () => void
+}
+
+export function ContactPage({ onReport }: ContactPageProps) {
   const [toast, setToast] = useState<string | null>(null)
   const meta = buildMeta({
     title: 'Contact — Cybercell',
@@ -55,9 +57,9 @@ export function ContactPage() {
                   If money has been transferred or credentials compromised, time is critical. Use our emergency directory to reach the right authority immediately.
                 </p>
                 <button
-                  className="btn btn-danger-soft"
+                  className="btn btn-danger-soft btn-sm"
                   style={{ width: '100%', justifyContent: 'center' }}
-                  onClick={() => setDrawerOpen(true)}
+                  onClick={onReport}
                 >
                   <Icons.alert size={14} /> Open emergency directory
                 </button>
@@ -110,23 +112,25 @@ export function ContactPage() {
                 </p>
 
                 {/* Achievements */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 20 }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 20 }}>
                   {[
                     { icon: <Icons.shield size={11} />, label: 'Recognized · Pepperfry' },
                     { icon: <Icons.shield size={11} />, label: 'Recognized · Acko Insurance' },
                     { icon: <Icons.brain size={11} />, label: 'Plenary Speaker · NFSU' },
                     { icon: <Icons.bug size={11} />, label: 'Bug Bounty Hunter' },
                   ].map(({ icon, label }) => (
-                    <span key={label} className="chip accent" style={{ fontSize: 11, gap: 5 }}>
+                    <div key={label} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 12, color: 'var(--accent-glow)', fontFamily: 'var(--font-mono)', letterSpacing: '0.04em' }}>
                       {icon} {label}
-                    </span>
+                    </div>
                   ))}
                 </div>
 
                 {/* Expertise */}
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
-                  {['Penetration Testing', 'Red Teaming', 'Vulnerability Assessment', 'Threat Hunting', 'Advanced Threat Analytics', 'OSINT'].map(skill => (
-                    <span key={skill} className="chip" style={{ fontSize: 11 }}>{skill}</span>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 20 }}>
+                  {['Penetration Testing', 'Red Teaming', 'Vulnerability Assessment', 'Threat Hunting', 'Advanced Threat Analytics', 'OSINT'].map((skill, i, arr) => (
+                    <span key={skill} style={{ fontSize: 11, color: 'var(--text-3)', fontFamily: 'var(--font-mono)' }}>
+                      {skill}{i < arr.length - 1 ? ' /' : ''}
+                    </span>
                   ))}
                 </div>
 
@@ -144,19 +148,58 @@ export function ContactPage() {
 
               {/* What to expect */}
               <div className="card flat" style={{ padding: 24 }}>
-                <h4 style={{ margin: '0 0 16px', fontSize: 14, color: 'var(--text)' }}>What happens after you send</h4>
-                <ol style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 18 }}>
+                  <Icons.clock size={14} style={{ color: 'var(--accent-glow)', flexShrink: 0 }} />
+                  <h4 style={{ margin: 0, fontSize: 14, color: 'var(--text)' }}>What happens after you send</h4>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                   {[
-                    'You get an auto-acknowledgement with a case reference.',
-                    'Vibhum reviews your message personally — no intake team.',
-                    'A reply within one working day, often sooner for active incidents.',
-                    'If a call makes more sense, a calendar link is included.',
-                  ].map((step, i) => (
-                    <li key={i} className="muted" style={{ fontSize: 13, lineHeight: 1.6 }}>
-                      {step}
-                    </li>
+                    {
+                      icon: <Icons.check size={13} />,
+                      title: 'Instant acknowledgement',
+                      detail: 'An auto-reply lands in your inbox immediately with a reference ID — so you know it arrived.',
+                    },
+                    {
+                      icon: <Icons.user size={13} />,
+                      title: 'Read by Vibhum, personally',
+                      detail: 'No ticket queue, no assistant. Every message is reviewed by the same person who will work your engagement.',
+                    },
+                    {
+                      icon: <Icons.send size={13} />,
+                      title: 'Reply within one working day',
+                      detail: 'Usually within a few hours during IST business hours. Active incidents are escalated immediately — use the emergency directory for those.',
+                    },
+                    {
+                      icon: <Icons.phone size={13} />,
+                      title: 'Call if it makes more sense',
+                      detail: 'If your situation needs a conversation, a calendar link is included in the reply — no back-and-forth to find a time.',
+                    },
+                  ].map((step, i, arr) => (
+                    <div
+                      key={i}
+                      style={{
+                        display: 'flex',
+                        gap: 14,
+                        paddingBottom: i < arr.length - 1 ? 16 : 0,
+                        marginBottom: i < arr.length - 1 ? 16 : 0,
+                        borderBottom: i < arr.length - 1 ? '1px solid var(--line)' : 'none',
+                      }}
+                    >
+                      <div style={{
+                        width: 28, height: 28, borderRadius: 8, flexShrink: 0,
+                        background: 'rgba(29,155,240,0.1)', border: '1px solid rgba(56,189,248,0.15)',
+                        display: 'grid', placeItems: 'center', color: 'var(--accent-glow)',
+                        marginTop: 2,
+                      }}>
+                        {step.icon}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--text)', marginBottom: 4 }}>{step.title}</div>
+                        <div className="muted" style={{ fontSize: 12, lineHeight: 1.65 }}>{step.detail}</div>
+                      </div>
+                    </div>
                   ))}
-                </ol>
+                </div>
               </div>
 
               {/* Social links */}
@@ -175,7 +218,6 @@ export function ContactPage() {
         </div>
       </section>
 
-      {drawerOpen && <EmergencyDrawer onClose={() => setDrawerOpen(false)} />}
       {toast && <Toast message={toast} onDismiss={() => setToast(null)} />}
     </>
   )
