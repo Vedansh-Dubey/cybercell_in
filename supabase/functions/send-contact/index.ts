@@ -54,14 +54,6 @@ Deno.serve(async (req) => {
     return new Response('Method not allowed', { status: 405, headers: cors(origin) })
   }
 
-  // ── Auth: require valid Supabase anon key ────────────────────────────────────
-  const expectedKey = Deno.env.get('SUPABASE_ANON_KEY')
-  const authHeader  = req.headers.get('Authorization') ?? ''
-  const callerKey   = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
-  if (!expectedKey || callerKey !== expectedKey) {
-    return json({ error: 'Unauthorized' }, 401, origin)
-  }
-
   // ── IP-based rate limit ──────────────────────────────────────────────────────
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0].trim()
            ?? req.headers.get('x-real-ip')
