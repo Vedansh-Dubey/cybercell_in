@@ -1,42 +1,56 @@
-import matter from 'gray-matter'
 import type { BlogPost, BlogFrontmatter } from '../types/blog'
 import { filenameToSlug } from './utils'
 
-// Vite glob import — all markdown files in /content/blogs/
-const modules = import.meta.glob('/content/blogs/*.md', { query: '?raw', import: 'default', eager: false })
+const modules = import.meta.glob('/content/blogs/*.md', { query: '?raw', import: 'default', eager: true }) as Record<string, string>
 
-export async function getAllPosts(): Promise<BlogPost[]> {
-  const posts: BlogPost[] = []
+function parseFrontmatter(raw: string): { data: BlogFrontmatter; content: string } {
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/m)
+  if (!match) return { data: {} as BlogFrontmatter, content: raw }
 
-  for (const [path, loader] of Object.entries(modules)) {
-    const raw = await (loader as () => Promise<string>)()
-    const { data, content } = matter(raw)
-    const slug = filenameToSlug(path)
+  const yaml = match[1]
+  const content = match[2]
+  const data: Record<string, unknown> = {}
 
-    posts.push({
-      ...(data as BlogFrontmatter),
-      slug,
-      content,
-    })
+  for (const line of yaml.split('\n')) {
+    const colon = line.indexOf(':')
+    if (colon === -1) continue
+    const key = line.slice(0, colon).trim()
+    const val = line.slice(colon + 1).trim()
+
+    if (val.startsWith('[')) {
+      data[key] = val
+        .slice(1, -1)
+        .split(',')
+        .map(s => s.trim().replace(/^["']|["']$/g, ''))
+        .filter(Boolean)
+    } else if (val === 'true') {
+      data[key] = true
+    } else if (val === 'false') {
+      data[key] = false
+    } else if (/^\d+$/.test(val)) {
+      data[key] = parseInt(val, 10)
+    } else {
+      data[key] = val.replace(/^["']|["']$/g, '')
+    }
   }
 
-  // Sort newest first
+  return { data: data as unknown as BlogFrontmatter, content }
+}
+
+export async function getAllPosts(): Promise<BlogPost[]> {
+  const posts = Object.entries(modules).map(([path, raw]) => {
+    const { data, content } = parseFrontmatter(raw)
+    return { ...data, slug: filenameToSlug(path), content } as BlogPost
+  })
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 }
 
 export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
   const path = `/content/blogs/${slug}.md`
-  const loader = modules[path]
-  if (!loader) return null
-
-  const raw = await (loader as () => Promise<string>)()
-  const { data, content } = matter(raw)
-
-  return {
-    ...(data as BlogFrontmatter),
-    slug,
-    content,
-  }
+  const raw = modules[path]
+  if (!raw) return null
+  const { data, content } = parseFrontmatter(raw)
+  return { ...data, slug, content } as BlogPost
 }
 
 export async function getFeaturedPost(): Promise<BlogPost | null> {
@@ -60,13 +74,11 @@ export function extractHeadings(content: string): { id: string; text: string; le
   const headingRegex = /^(#{1,3})\s+(.+)$/gm
   const headings: { id: string; text: string; level: number }[] = []
   let match
-
   while ((match = headingRegex.exec(content)) !== null) {
     const level = match[1].length
     const text = match[2].trim()
     const id = text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
     headings.push({ id, text, level })
   }
-
   return headings
 }

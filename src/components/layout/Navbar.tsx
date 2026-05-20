@@ -9,7 +9,7 @@ interface NavbarProps {
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   { to: '/services', label: 'Services' },
-  { to: '/news', label: 'News & Blogs' },
+  { to: '/news', label: 'News & Blog' },
   { to: '/contact', label: 'Contact' },
 ]
 
@@ -86,22 +86,22 @@ export function Navbar({ onReport }: NavbarProps) {
       </div>
 
       {mobileOpen && (
-        <div style={{ borderTop: '1px solid var(--line-2)', background: 'rgba(11,15,23,0.95)' }}>
-          <div className="container" style={{ padding: '8px 18px 18px' }}>
+        <div className="mobile-menu">
+          <div className="container" style={{ padding: '6px 18px 20px' }}>
             {NAV_LINKS.map(({ to, label }) => (
               <Link
                 key={to}
                 to={to}
-                className={`nav-link ${location.pathname === to ? 'active' : ''}`}
-                style={{ padding: '13px 4px', borderBottom: '1px solid var(--line)', display: 'block', fontSize: 15 }}
+                className={`mobile-nav-link ${location.pathname === to ? 'active' : ''}`}
               >
-                {label}
+                <span>{label}</span>
+                <Icons.arrow size={13} style={{ opacity: 0.4 }} />
               </Link>
             ))}
             <Link
               to="/contact"
               className="btn btn-primary"
-              style={{ marginTop: 16, width: '100%', justifyContent: 'center' }}
+              style={{ marginTop: 14, width: '100%', justifyContent: 'center' }}
             >
               Book consult <span className="arrow">→</span>
             </Link>

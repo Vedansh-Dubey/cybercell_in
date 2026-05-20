@@ -1,160 +1,127 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link, Navigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { getPostBySlug, getRelatedPosts, extractHeadings } from '../lib/blog'
+import { getPostBySlug } from '../lib/blog'
 import type { BlogPost } from '../types/blog'
-import { ReadingProgress } from '../components/blog/ReadingProgress'
-import { TableOfContents } from '../components/blog/TableOfContents'
-import { RelatedArticles } from '../components/blog/RelatedArticles'
-import { Cover } from '../components/blog/Cover'
-import { CardSkeleton } from '../components/ui/Skeleton'
 import { Icons } from '../components/ui/Icon'
-import { buildBlogMeta, buildArticleSchema } from '../lib/seo'
 import { formatDate } from '../lib/utils'
-
-const GLYPHS = [Icons.alert, Icons.bug, Icons.lock, Icons.fingerprint, Icons.network, Icons.brain, Icons.shield]
-const HUES = [190, 220, 260, 170, 230, 200, 195]
 
 export function BlogDetailPage() {
   const { slug } = useParams<{ slug: string }>()
-  const [post, setPost] = useState<BlogPost | null | undefined>(undefined)
-  const [related, setRelated] = useState<BlogPost[]>([])
+  const navigate = useNavigate()
+  const [post, setPost] = useState<BlogPost | null>(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     if (!slug) return
-    getPostBySlug(slug).then(async p => {
-      setPost(p ?? null)
-      if (p) {
-        const rel = await getRelatedPosts(p.slug, p.tags, 3)
-        setRelated(rel)
-      }
-    })
+    getPostBySlug(slug)
+      .then(p => { setPost(p); setLoading(false) })
+      .catch(() => setLoading(false))
   }, [slug])
 
-  if (post === null) return <Navigate to="/blog" replace />
+  if (loading) return (
+    <div style={{ padding: '80px 28px', maxWidth: 760, margin: '0 auto', color: 'var(--text-3)', fontFamily: 'var(--font-mono)', fontSize: 13 }}>
+      Loading…
+    </div>
+  )
 
-  if (post === undefined) {
-    return (
-      <div className="container" style={{ padding: '80px 0' }}>
-        <CardSkeleton />
-      </div>
-    )
-  }
-
-  const headings = extractHeadings(post.content)
-  const meta = buildBlogMeta(post)
-  const articleSchema = buildArticleSchema(post)
-  const postIndex = Math.abs(post.slug.charCodeAt(0)) % GLYPHS.length
-  const Glyph = GLYPHS[postIndex]
-  const hue = HUES[postIndex]
+  if (!post) return (
+    <div style={{ padding: '80px 28px', maxWidth: 760, margin: '0 auto', textAlign: 'center' }}>
+      <p style={{ color: 'var(--text-3)' }}>Article not found.</p>
+      <button className="btn btn-ghost" style={{ marginTop: 16 }} onClick={() => navigate('/news')}>
+        ← Back to News &amp; Blog
+      </button>
+    </div>
+  )
 
   return (
     <>
       <Helmet>
-        <title>{meta.title}</title>
-        <meta name="description" content={meta.description} />
-        <meta property="og:title" content={meta.ogTitle} />
-        <meta property="og:description" content={meta.ogDescription} />
+        <title>{post.title} — Cybercell</title>
+        <meta name="description" content={post.excerpt} />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        {post.coverImage && <meta property="og:image" content={`https://cybercell.in${post.coverImage}`} />}
         <meta property="og:type" content="article" />
-        {meta.ogImage && <meta property="og:image" content={meta.ogImage} />}
-        <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
       </Helmet>
 
-      <ReadingProgress />
+      {/* Narrow centred column for everything */}
+      <div style={{ maxWidth: 760, margin: '0 auto', padding: '0 clamp(16px, 5vw, 24px) clamp(64px, 10vw, 96px)' }}>
 
-      <div className="container" style={{ padding: '48px 0 80px' }}>
-        {/* Back */}
-        <Link to="/blog" className="btn btn-ghost btn-sm" style={{ marginBottom: 32, display: 'inline-flex', alignItems: 'center', gap: 6 }}>
-          <Icons.arrow size={14} style={{ transform: 'rotate(180deg)' }} /> Back to blog
-        </Link>
-
-        <div className="blog-detail-grid">
-          {/* Left: TOC */}
-          <aside className="toc-aside">
-            {headings.length > 1 && <TableOfContents headings={headings} />}
-          </aside>
-
-          {/* Center: Article */}
-          <article style={{ maxWidth: 720 }}>
-            {/* Cover */}
-            <div style={{ marginBottom: 32, borderRadius: 12, overflow: 'hidden', aspectRatio: '16/7', position: 'relative' }}>
-              <Cover
-                coverImage={post.coverImage}
-                hue={hue}
-                glyph={<Glyph size={48} />}
-                label={`Blog · ${post.tags[0] ?? 'Article'}`}
-              />
-            </div>
-
-            {/* Tags */}
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-              {post.tags.map(t => (
-                <span key={t} className="chip">{t}</span>
-              ))}
-            </div>
-
-            <h1 style={{ fontSize: 'clamp(24px, 3.5vw, 42px)', fontWeight: 700, lineHeight: 1.2, letterSpacing: '-0.02em', margin: '0 0 16px' }}>
-              {post.title}
-            </h1>
-
-            <div className="mono tiny" style={{ color: 'var(--text-3)', display: 'flex', gap: 16, marginBottom: 40, flexWrap: 'wrap' }}>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icons.user size={12} /> {post.author}
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icons.calendar size={12} /> {formatDate(post.date)}
-              </span>
-              <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <Icons.clock size={12} /> {post.readingTime} min read
-              </span>
-            </div>
-
-            {/* Body */}
-            <div className="prose">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {post.content}
-              </ReactMarkdown>
-            </div>
-
-            {/* Share */}
-            <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap', marginTop: 48, paddingTop: 24, borderTop: '1px solid var(--line)' }}>
-              <span className="muted" style={{ fontSize: 13 }}>Share:</span>
-              <button
-                className="btn btn-ghost btn-sm"
-                onClick={() => navigator.clipboard.writeText(window.location.href)}
-                title="Copy link"
-              >
-                <Icons.copy size={13} /> Copy link
-              </button>
-              <a
-                href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-sm"
-              >
-                <Icons.twitter size={13} /> X / Twitter
-              </a>
-              <a
-                href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn btn-ghost btn-sm"
-              >
-                <Icons.linkedin size={13} /> LinkedIn
-              </a>
-            </div>
-          </article>
+        {/* Back link */}
+        <div style={{ padding: 'clamp(20px, 5vw, 32px) 0 clamp(16px, 4vw, 24px)' }}>
+          <button
+            className="btn btn-ghost btn-sm"
+            onClick={() => navigate('/news')}
+            style={{ gap: 6 }}
+          >
+            <Icons.arrow size={13} style={{ transform: 'rotate(180deg)' }} />
+            Back to News &amp; Blog
+          </button>
         </div>
 
-        {/* Related */}
-        {related.length > 0 && (
-          <div style={{ marginTop: 72, borderTop: '1px solid var(--line)', paddingTop: 48 }}>
-            <h3 className="section" style={{ marginBottom: 24 }}>Related articles</h3>
-            <RelatedArticles posts={related} />
+        {/* Chips */}
+        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 20 }}>
+          <span className="chip ok">Featured</span>
+          <span className="chip accent">Cybercell Research</span>
+          <span className="chip">{post.readingTime} min read</span>
+        </div>
+
+        {/* Title */}
+        <h1 style={{ fontSize: 'clamp(26px, 4vw, 42px)', fontWeight: 700, lineHeight: 1.15, letterSpacing: '-0.02em', margin: '0 0 16px', color: 'var(--text-1)' }}>
+          {post.title}
+        </h1>
+
+        {/* Excerpt */}
+        <p style={{ fontSize: 'clamp(15px, 2.2vw, 18px)', color: 'var(--text-2)', lineHeight: 1.6, margin: '0 0 20px' }}>
+          {post.excerpt}
+        </p>
+
+        {/* Byline */}
+        <div style={{ display: 'flex', gap: 10, alignItems: 'center', fontSize: 13, color: 'var(--text-3)', fontFamily: 'var(--font-mono)', flexWrap: 'wrap' }}>
+          <Icons.user size={12} />
+          <span>{post.author}</span>
+          <span>·</span>
+          <span>{formatDate(post.date)}</span>
+        </div>
+
+        {/* Tags */}
+        {post.tags.length > 0 && (
+          <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', margin: '16px 0 0' }}>
+            {post.tags.map(t => <span key={t} className="chip">#{t}</span>)}
           </div>
         )}
+
+        {/* Cover image — below header so it doesn't dominate */}
+        {post.coverImage && (
+          <div style={{ margin: '32px 0', borderRadius: 12, overflow: 'hidden', border: '1px solid var(--line)' }}>
+            <img
+              src={post.coverImage}
+              alt=""
+              style={{ width: '100%', display: 'block', objectFit: 'cover' }}
+            />
+          </div>
+        )}
+
+        {/* Divider */}
+        <div style={{ borderTop: '1px solid var(--line)', margin: post.coverImage ? '0 0 40px' : '32px 0 40px' }} />
+
+        {/* Article body */}
+        <div className="blog-prose">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+            {post.content}
+          </ReactMarkdown>
+        </div>
+
+        {/* Footer */}
+        <div style={{ marginTop: 64, paddingTop: 32, borderTop: '1px solid var(--line)' }}>
+          <button className="btn btn-ghost btn-sm" onClick={() => navigate('/news')} style={{ gap: 6 }}>
+            <Icons.arrow size={13} style={{ transform: 'rotate(180deg)' }} />
+            Back to News &amp; Blog
+          </button>
+        </div>
       </div>
     </>
   )

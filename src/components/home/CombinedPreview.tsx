@@ -4,7 +4,7 @@ import { useQuery } from '@tanstack/react-query'
 import { getAllPosts } from '../../lib/blog'
 import { fetchAllNews } from '../../lib/news'
 import type { BlogPost } from '../../types/blog'
-import { BlogCard } from '../blog/BlogCard'
+import { BlogFeaturedCard } from '../news/BlogFeaturedCard'
 import { NewsCard } from '../news/NewsCard'
 import { NewsSkeleton } from '../ui/Skeleton'
 import { Icons } from '../ui/Icon'
@@ -17,20 +17,35 @@ export function CombinedPreview() {
     queryKey: ['news'],
     queryFn: fetchAllNews,
     staleTime: 5 * 60 * 1000,
+    retry: 1,
   })
 
   useEffect(() => {
-    getAllPosts().then(all => {
-      setPosts(all.slice(0, 3))
-      setBlogLoading(false)
-    })
+    getAllPosts()
+      .then(all => setPosts(all.slice(0, 2)))
+      .catch(() => {})
+      .finally(() => setBlogLoading(false))
   }, [])
 
-  const newsItems = (newsData?.items ?? []).slice(0, 3)
-  const isLoading = blogLoading || newsLoading
-  const hasContent = posts.length > 0 || newsItems.length > 0
+  const newsItems = (newsData?.items ?? []).slice(0, 4)
 
-  if (!isLoading && !hasContent) return null
+  if (blogLoading) {
+    return (
+      <section style={{ padding: '80px 0' }}>
+        <div className="container">
+          <div style={{ marginBottom: 40 }}>
+            <span className="eyebrow">Insight &amp; intelligence</span>
+            <h2 className="section" style={{ margin: '10px 0 0' }}>Perspectives from the practice.</h2>
+          </div>
+          <div className="news-grid">
+            {[0, 1, 2, 3, 4, 5].map(i => <NewsSkeleton key={i} />)}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
+  if (posts.length === 0 && newsItems.length === 0 && !newsLoading) return null
 
   return (
     <section style={{ padding: '80px 0', background: 'linear-gradient(180deg, transparent, rgba(11,15,23,0.6))' }}>
@@ -40,30 +55,22 @@ export function CombinedPreview() {
             <span className="eyebrow">Insight &amp; intelligence</span>
             <h2 className="section" style={{ margin: '10px 0 0' }}>Perspectives from the practice.</h2>
           </div>
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            <Link to="/blog" className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
-              All articles <Icons.arrow size={14} />
-            </Link>
-            <Link to="/news" className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
-              All news <Icons.arrow size={14} />
-            </Link>
-          </div>
+          <Link to="/news" className="btn btn-ghost btn-sm" style={{ gap: 6 }}>
+            All news &amp; blog <Icons.arrow size={14} />
+          </Link>
         </div>
 
-        {isLoading ? (
-          <div className="article-grid">
-            {[0, 1, 2, 3, 4, 5].map(i => <NewsSkeleton key={i} />)}
-          </div>
-        ) : (
-          <div className="article-grid">
-            {posts.map((post, i) => (
-              <BlogCard key={post.slug} post={post} index={i} />
-            ))}
-            {newsItems.map((item, i) => (
-              <NewsCard key={item.id} item={item} index={i} showTypeChip />
-            ))}
-          </div>
-        )}
+        <div className="news-grid">
+          {posts.map((post, i) => (
+            <BlogFeaturedCard key={post.slug} post={post} index={i} />
+          ))}
+          {newsLoading
+            ? [0, 1, 2, 3].map(i => <NewsSkeleton key={`ns-${i}`} />)
+            : newsItems.map((item, i) => (
+                <NewsCard key={item.id} item={item} index={i} />
+              ))
+          }
+        </div>
       </div>
     </section>
   )

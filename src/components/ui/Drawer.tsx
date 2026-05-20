@@ -27,10 +27,14 @@ export function Drawer({ onClose, children, title, subtitle }: DrawerProps) {
         <div className="drawer-header">
           <div>
             {subtitle && <div style={{ marginBottom: 8 }}>{subtitle}</div>}
-            {title && <h3 className="card">{title}</h3>}
+            {title && (
+              <h3 style={{ margin: 0, fontSize: 20, fontWeight: 600, letterSpacing: '-0.015em', lineHeight: 1.2 }}>
+                {title}
+              </h3>
+            )}
           </div>
-          <button className="x-btn" onClick={onClose} aria-label="Close panel">
-            <Icons.close size={14} />
+          <button className="drawer-close-btn" onClick={onClose} aria-label="Close panel">
+            <Icons.close size={16} />
           </button>
         </div>
         <div className="drawer-body">{children}</div>

@@ -22,8 +22,90 @@ export function ServicesPage() {
       </Helmet>
 
       {/* Hero */}
-      <section className="page-header">
-        <div className="container">
+      <section className="page-header svc-header">
+        {/* Atmospheric threat-graph — bleeds off right edge */}
+        <div className="svc-header-bg" aria-hidden="true">
+          <svg viewBox="0 0 600 340" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMaxYMid meet">
+            <defs>
+              <radialGradient id="sh-fade" cx="70%" cy="50%" r="60%">
+                <stop offset="0%" stopColor="rgba(29,155,240,0.0)" />
+                <stop offset="100%" stopColor="rgba(29,155,240,0.0)" />
+              </radialGradient>
+              <mask id="sh-mask">
+                <rect width="600" height="340" fill="url(#sh-fade-mask)" />
+              </mask>
+              <linearGradient id="sh-fade-mask" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor="black" />
+                <stop offset="35%" stopColor="white" />
+                <stop offset="100%" stopColor="white" />
+              </linearGradient>
+            </defs>
+
+            {/* Node positions: a sparse organic graph */}
+            {/* Edges first */}
+            {[
+              [490,170, 390,90], [490,170, 395,240], [490,170, 560,100],
+              [490,170, 560,250], [390,90, 300,60], [390,90, 280,140],
+              [395,240, 280,200], [395,240, 310,290], [560,100, 580,60],
+              [560,250, 575,285], [300,60, 210,80], [280,140, 210,80],
+              [280,140, 210,190], [280,200, 210,190], [280,200, 220,270],
+              [310,290, 220,270], [210,80, 130,110], [210,190, 130,110],
+              [210,190, 140,230], [220,270, 140,230],
+            ].map(([x1,y1,x2,y2], i) => (
+              <line key={i} x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke="rgba(56,189,248,0.15)" strokeWidth="1"
+                mask="url(#sh-mask)" />
+            ))}
+
+            {/* Nodes */}
+            {([
+              [490,170, 8, 0], [390,90, 5, 1], [395,240, 5, 2],
+              [560,100, 4, 3], [560,250, 4, 4], [300,60, 5, 5],
+              [280,140, 5, 0], [280,200, 5, 1], [310,290, 4, 2],
+              [210,80, 6, 3], [210,190, 6, 4], [220,270, 4, 5],
+              [130,110, 5, 0], [140,230, 4, 1], [580,60, 3, 2],
+              [575,285, 3, 3],
+            ] as [number,number,number,number][]).map(([cx,cy,r,bi], i) => (
+              <g key={i} mask="url(#sh-mask)">
+                <circle cx={cx} cy={cy} r={r + 5}
+                  fill="rgba(11,15,23,0)" stroke="rgba(56,189,248,0.18)" strokeWidth="1" />
+                <circle cx={cx} cy={cy} r={r}
+                  fill="rgba(11,15,23,0.9)" stroke="rgba(56,189,248,0.5)" strokeWidth="1.2" />
+                <circle cx={cx} cy={cy} r={r * 0.45}
+                  fill="rgba(56,189,248,0.65)"
+                  className={`svc-blink-${bi}`} />
+              </g>
+            ))}
+
+            {/* Central hub — bigger, glowing */}
+            <g mask="url(#sh-mask)">
+              <circle cx="490" cy="170" r="28"
+                fill="rgba(29,155,240,0.06)" stroke="rgba(56,189,248,0.22)" strokeWidth="1" strokeDasharray="5 7"
+                className="svc-ring-slow" style={{ transformOrigin: '490px 170px' }} />
+              <circle cx="490" cy="170" r="18"
+                fill="rgba(29,155,240,0.10)" stroke="rgba(56,189,248,0.40)" strokeWidth="1.2" />
+              <circle cx="490" cy="170" r="8"
+                fill="rgba(56,189,248,0.20)" />
+              <circle cx="490" cy="170" r="3.5"
+                fill="rgba(56,189,248,0.90)" className="svc-blink-0" />
+              {/* Sweep arm on hub */}
+              <line x1="490" y1="170" x2="490" y2="148"
+                stroke="rgba(56,189,248,0.55)" strokeWidth="1.5" strokeLinecap="round"
+                className="svc-sweep-arm" style={{ transformOrigin: '490px 170px' }} />
+            </g>
+
+            {/* Mono labels */}
+            {([
+              [500, 145, 'NODE-01'], [360, 82, 'SCAN'], [368, 255, 'RECON'],
+              [290, 48, 'TARGET'], [265, 133, 'PIVOT'],
+            ] as [number,number,string][]).map(([x,y,t], i) => (
+              <text key={i} x={x} y={y} fontFamily="monospace" fontSize="7.5"
+                fill="rgba(56,189,248,0.30)" letterSpacing="1.2" mask="url(#sh-mask)">{t}</text>
+            ))}
+          </svg>
+        </div>
+
+        <div className="container" style={{ position: 'relative', zIndex: 1 }}>
           <span className="eyebrow">How we can help</span>
           <h1 className="display" style={{ fontSize: 'clamp(32px, 5vw, 60px)', maxWidth: '18ch', margin: '14px 0 18px' }}>
             Not a service catalogue. A conversation.

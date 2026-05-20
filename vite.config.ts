@@ -17,5 +17,4 @@ export default defineConfig({
       '@types': path.resolve(__dirname, './src/types'),
     },
   },
-  assetsInclude: ['**/*.md'],
 })

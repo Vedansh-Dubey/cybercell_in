@@ -1,7 +1,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2'
 import { XMLParser } from 'npm:fast-xml-parser'
 
-const ALLOWED_ORIGINS = ['https://cybercell.in', 'http://localhost:5173']
+const ALLOWED_ORIGINS = ['https://cybercell.in', 'http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175']
 const DEFAULT_PAGE_SIZE = 30
 const REFRESH_INTERVAL_MS = 12 * 60 * 60 * 1000 // 12 hours
 
@@ -87,12 +87,23 @@ function extractImage(item: Record<string, unknown>): string | undefined {
   return undefined
 }
 
+function isSafeUrl(url: string): boolean {
+  try {
+    const u = new URL(url)
+    if (u.protocol !== 'https:') return false
+    const h = u.hostname
+    // Block loopback, link-local, and private IP ranges (RFC 1918 + APIPA + metadata endpoints)
+    if (/^(localhost|127\.|0\.0\.0\.0|10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.|::1$|\[::1\])/.test(h)) return false
+    return true
+  } catch { return false }
+}
+
 async function fetchOGImage(url: string): Promise<string | undefined> {
   try {
     const res = await fetch(url, {
       signal: AbortSignal.timeout(2500),
       headers: { 'User-Agent': 'cybercell.in/1.0 (+https://cybercell.in)' },
-      redirect: 'follow',
+      redirect: 'error',
     })
     if (!res.ok) return undefined
     const html = await res.text()
@@ -102,7 +113,7 @@ async function fetchOGImage(url: string): Promise<string | undefined> {
       html.match(/<meta[^>]+name=["']twitter:image["'][^>]+content=["']([^"']+)["']/i) ??
       html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']twitter:image["']/i)
     const imgUrl = match?.[1]
-    if (imgUrl && imgUrl.startsWith('http')) return imgUrl
+    if (imgUrl && isSafeUrl(imgUrl)) return imgUrl
     return undefined
   } catch { return undefined }
 }
@@ -157,7 +168,7 @@ async function fetchRSSFeed(feed: typeof RSS_FEEDS[0]): Promise<Article[]> {
     }).filter((a): a is Article => a !== null && !a.url.includes('github.com'))
 
     if (feed.fetchOG) {
-      const noImage = articles.filter(a => !a.image_url).slice(0, 5)
+      const noImage = articles.filter(a => !a.image_url && isSafeUrl(a.url)).slice(0, 5)
       if (noImage.length > 0) {
         const ogImages = await Promise.all(noImage.map(a => fetchOGImage(a.url)))
         noImage.forEach((a, i) => { if (ogImages[i]) a.image_url = ogImages[i] })
@@ -214,11 +225,25 @@ async function refreshNews(supabase: ReturnType<typeof createClient>) {
 
 // ─── Main handler ─────────────────────────────────────────────────────────────
 
+// ─── Pagination limits ────────────────────────────────────────────────────────
+const MAX_PAGE = 50   // prevents deep-offset DB scans
+
 Deno.serve(async (req) => {
   const origin = req.headers.get('origin')
 
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: cors(origin) })
+  }
+
+  // ── Auth: require valid Supabase anon key ──────────────────────────────────
+  const expectedKey = Deno.env.get('SUPABASE_ANON_KEY')
+  const authHeader  = req.headers.get('Authorization') ?? ''
+  const callerKey   = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : ''
+  if (!expectedKey || callerKey !== expectedKey) {
+    return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+      status: 401,
+      headers: { ...cors(origin), 'Content-Type': 'application/json' },
+    })
   }
 
   const supabase = createClient(
@@ -255,7 +280,7 @@ Deno.serve(async (req) => {
 
   // Paginate from DB
   const reqUrl = new URL(req.url)
-  const page   = Math.max(0, parseInt(reqUrl.searchParams.get('page')  ?? '0'))
+  const page   = Math.min(Math.max(0, parseInt(reqUrl.searchParams.get('page')  ?? '0')), MAX_PAGE)
   const limit  = Math.min(Math.max(1, parseInt(reqUrl.searchParams.get('limit') ?? String(DEFAULT_PAGE_SIZE))), 100)
   const offset = page * limit
 
@@ -267,7 +292,8 @@ Deno.serve(async (req) => {
     .range(offset, offset + limit - 1)
 
   if (error) {
-    return new Response(JSON.stringify({ status: 'error', message: error.message }), {
+    console.error('fetch-news DB error:', error.message)
+    return new Response(JSON.stringify({ status: 'error', message: 'Failed to load articles' }), {
       status: 500,
       headers: { ...cors(origin), 'Content-Type': 'application/json' },
     })

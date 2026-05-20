@@ -15,18 +15,31 @@ export function useReveal() {
     )
 
     function observeNew() {
-      document.querySelectorAll<HTMLElement>('.reveal:not(.in)').forEach(el => io.observe(el))
+      requestAnimationFrame(() => {
+        document.querySelectorAll<HTMLElement>('.reveal:not(.in)').forEach(el => io.observe(el))
+      })
     }
 
     observeNew()
 
-    // Pick up elements added after data loads (blog cards, news cards, etc.)
     const mo = new MutationObserver(observeNew)
     mo.observe(document.body, { childList: true, subtree: true })
+
+    // Safety net: force-reveal anything still hidden after data loads
+    const timer = setTimeout(() => {
+      document.querySelectorAll<HTMLElement>('.reveal:not(.in)').forEach(el => {
+        const rect = el.getBoundingClientRect()
+        // Reveal if element is anywhere near the visible area
+        if (rect.top < window.innerHeight + 200) {
+          el.classList.add('in')
+        }
+      })
+    }, 1500)
 
     return () => {
       io.disconnect()
       mo.disconnect()
+      clearTimeout(timer)
     }
-  }, []) // run once on mount only
+  }, [])
 }

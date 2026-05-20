@@ -30,18 +30,7 @@ export function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  style={{
-                    width: 36,
-                    height: 36,
-                    display: 'grid',
-                    placeItems: 'center',
-                    borderRadius: 10,
-                    border: '1px solid var(--line-2)',
-                    color: 'var(--text-2)',
-                    cursor: 'pointer',
-                    textDecoration: 'none',
-                    transition: 'color .2s, border-color .2s',
-                  }}
+                  className="footer-social-btn"
                 >
                   <Ic size={16} />
                 </a>
@@ -64,11 +53,11 @@ export function Footer() {
             >
               Practice
             </h5>
-            <Link to="/services" className="footer-link" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>All services</Link>
-            <Link to="/services" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Penetration testing</Link>
-            <Link to="/services" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Incident response</Link>
-            <Link to="/services" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>OSINT investigations</Link>
-            <Link to="/services" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Awareness training</Link>
+            <Link to="/services" className="footer-link">All services</Link>
+            <Link to="/services" className="footer-link">Penetration testing</Link>
+            <Link to="/services" className="footer-link">Incident response</Link>
+            <Link to="/services" className="footer-link">OSINT investigations</Link>
+            <Link to="/services" className="footer-link">Awareness training</Link>
           </div>
 
           {/* Resources column */}
@@ -86,11 +75,11 @@ export function Footer() {
             >
               Resources
             </h5>
-            <Link to="/news" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>News feed</Link>
-            <Link to="/blog" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Blog</Link>
-            <Link to="/news" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Threat intel</Link>
-            <Link to="/contact" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Report cyber fraud</Link>
-            <Link to="/contact" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Emergency contacts</Link>
+            <Link to="/news" className="footer-link">News feed</Link>
+            <Link to="/blog" className="footer-link">Blog</Link>
+            <Link to="/news" className="footer-link">Threat intel</Link>
+            <Link to="/contact" className="footer-link">Report cyber fraud</Link>
+            <Link to="/contact" className="footer-link">Emergency contacts</Link>
           </div>
 
           {/* Contact column */}
@@ -108,10 +97,10 @@ export function Footer() {
             >
               Contact
             </h5>
-            <a href="mailto:vibhum@cybercell.in" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>vibhum@cybercell.in</a>
-            <span style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, padding: '6px 0' }}>+91 — on request</span>
-            <span style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, padding: '6px 0' }}>India · Remote worldwide</span>
-            <Link to="/contact" style={{ display: 'block', color: 'var(--text-2)', fontSize: 14, textDecoration: 'none', padding: '6px 0' }}>Book a consult</Link>
+            <a href="mailto:vibhum@cybercell.in" className="footer-link">vibhum@cybercell.in</a>
+            <span className="footer-link" style={{ cursor: 'default' }}>+91 — on request</span>
+            <span className="footer-link" style={{ cursor: 'default' }}>India · Remote worldwide</span>
+            <Link to="/contact" className="footer-link">Book a consult</Link>
           </div>
         </div>
 

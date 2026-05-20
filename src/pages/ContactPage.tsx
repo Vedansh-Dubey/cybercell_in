@@ -35,7 +35,7 @@ export function ContactPage() {
         </div>
       </section>
 
-      <section style={{ padding: '0 0 80px' }}>
+      <section style={{ padding: '0 0 64px' }}>
         <div className="container">
           <div className="contact-grid">
             {/* Left column */}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { Icons } from '../ui/Icon'
 import { useHoverLight } from '../../hooks/useHoverLight'
 
@@ -19,7 +19,17 @@ interface FormErrors {
   message?: string
 }
 
-type SubmitStatus = 'idle' | 'loading' | 'ok' | 'error'
+type SubmitStatus = 'idle' | 'loading' | 'ok' | 'error' | 'cooldown'
+
+// Must stay in sync with server-side LIMITS in send-contact/index.ts
+const LIMITS = {
+  name:    { min: 2,   max: 100 },
+  email:   { min: 5,   max: 254 },
+  subject: { max: 120 },
+  message: { min: 12,  max: 4000 },
+} as const
+
+const COOLDOWN_MS = 30_000 // 30 s between submissions
 
 const SUBJECTS = [
   'General enquiry',
@@ -40,24 +50,55 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
   })
   const [errors, setErrors] = useState<FormErrors>({})
   const [status, setStatus] = useState<SubmitStatus>('idle')
+  const lastSubmitRef = useRef<number>(0)
 
   const update = (key: keyof FormState, value: string) => {
-    setForm(f => ({ ...f, [key]: value }))
+    // Hard-cap input length as the user types
+    const max = key === 'name' ? LIMITS.name.max
+      : key === 'email'   ? LIMITS.email.max
+      : key === 'subject' ? LIMITS.subject.max
+      : LIMITS.message.max
+    setForm(f => ({ ...f, [key]: value.slice(0, max) }))
     setErrors(e => ({ ...e, [key]: undefined }))
   }
 
   const validate = (): boolean => {
     const e: FormErrors = {}
-    if (!form.name.trim()) e.name = 'Please enter your name.'
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) e.email = 'A valid email keeps the reply chain working.'
-    if (form.message.trim().length < 12) e.message = 'A line or two of context speeds up the reply.'
+    const name    = form.name.trim()
+    const email   = form.email.trim()
+    const message = form.message.trim()
+
+    if (name.length < LIMITS.name.min)
+      e.name = `Name must be at least ${LIMITS.name.min} characters.`
+    else if (name.length > LIMITS.name.max)
+      e.name = `Name must be at most ${LIMITS.name.max} characters.`
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      e.email = 'A valid email keeps the reply chain working.'
+    else if (email.length > LIMITS.email.max)
+      e.email = `Email address is too long.`
+
+    if (message.length < LIMITS.message.min)
+      e.message = 'A line or two of context speeds up the reply.'
+    else if (message.length > LIMITS.message.max)
+      e.message = `Message must be at most ${LIMITS.message.max} characters.`
+
     setErrors(e)
     return Object.keys(e).length === 0
   }
 
   const submit = async () => {
+    // Client-side cooldown — prevents accidental double-sends and spam
+    const now = Date.now()
+    if (now - lastSubmitRef.current < COOLDOWN_MS) {
+      setStatus('cooldown')
+      setTimeout(() => setStatus('idle'), COOLDOWN_MS - (now - lastSubmitRef.current))
+      return
+    }
+
     if (!validate()) return
     setStatus('loading')
+    lastSubmitRef.current = Date.now()
 
     try {
       const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
@@ -73,7 +114,12 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${supabaseKey}`,
         },
-        body: JSON.stringify(form),
+        body: JSON.stringify({
+          name:    form.name.trim(),
+          email:   form.email.trim(),
+          subject: form.subject,
+          message: form.message.trim(),
+        }),
       })
 
       if (!res.ok) throw new Error('Send failed')
@@ -88,8 +134,11 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
     }
   }
 
+  const msgLen    = form.message.length
+  const msgNearMax = msgLen > LIMITS.message.max * 0.85
+
   return (
-    <div className="card reveal" style={{ padding: 36 }} onMouseMove={onCardMove}>
+    <div className="card reveal contact-form-card" style={{ padding: 'clamp(18px, 4vw, 36px)' }} onMouseMove={onCardMove}>
       <span className="eyebrow">Send a message</span>
       <h2 className="section" style={{ fontSize: 'clamp(22px, 2.4vw, 30px)', margin: '12px 0 8px' }}>
         Tell us what's on your mind.
@@ -107,6 +156,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             onChange={e => update('name', e.target.value)}
             placeholder="Your name"
             autoComplete="name"
+            maxLength={LIMITS.name.max}
           />
           {errors.name && <span className="err" role="alert">{errors.name}</span>}
         </div>
@@ -119,6 +169,7 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             onChange={e => update('email', e.target.value)}
             placeholder="you@domain.com"
             autoComplete="email"
+            maxLength={LIMITS.email.max}
           />
           {errors.email && <span className="err" role="alert">{errors.email}</span>}
         </div>
@@ -136,24 +187,36 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
       </div>
 
       <div className={`field ${errors.message ? 'bad' : form.message ? 'ok' : ''}`} style={{ marginTop: 14 }}>
-        <label htmlFor="contact-message">Message</label>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+          <label htmlFor="contact-message">Message</label>
+          <span
+            className="mono tiny"
+            style={{
+              color: msgNearMax ? (msgLen >= LIMITS.message.max ? 'var(--danger, #ef4444)' : '#fbbf24') : 'var(--text-3)',
+              transition: 'color .2s',
+            }}
+          >
+            {msgLen}/{LIMITS.message.max}
+          </span>
+        </div>
         <textarea
           id="contact-message"
           value={form.message}
           onChange={e => update('message', e.target.value)}
           placeholder="A couple of lines on what you're trying to do, who's involved, and any deadlines."
+          maxLength={LIMITS.message.max}
         />
         {errors.message && <span className="err" role="alert">{errors.message}</span>}
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 22, gap: 14, flexWrap: 'wrap' }}>
+      <div className="contact-submit-row">
         <div className="mono tiny" style={{ color: 'var(--text-3)', display: 'flex', alignItems: 'center', gap: 8 }}>
           <Icons.lock size={12} aria-hidden="true" /> End-to-end via TLS · GPG key available on request
         </div>
         <button
-          className="btn btn-primary btn-lg"
+          className="btn btn-primary btn-lg contact-submit-btn"
           onClick={submit}
-          disabled={status === 'loading'}
+          disabled={status === 'loading' || status === 'cooldown'}
           aria-live="polite"
         >
           {status === 'loading' ? (
@@ -163,6 +226,8 @@ export function ContactForm({ onSuccess }: ContactFormProps) {
             </>
           ) : status === 'ok' ? (
             <><Icons.check size={16} aria-hidden="true" /> Sent</>
+          ) : status === 'cooldown' ? (
+            <><Icons.clock size={16} aria-hidden="true" /> Please wait…</>
           ) : status === 'error' ? (
             <><Icons.alert size={16} aria-hidden="true" /> Error — try again</>
           ) : (

@@ -51,7 +51,7 @@ export function NewsCard({ item, index = 0, featured = false, showTypeChip = fal
       rel="noopener noreferrer"
       className={`card news-card reveal ${featured ? 'featured' : ''}`}
       onMouseMove={onCardMove}
-      style={{ transitionDelay: `${Math.min(index * 30, 250)}ms`, textDecoration: 'none', color: 'inherit', display: 'block' }}
+      style={{ transitionDelay: `${Math.min(index * 20, 120)}ms`, textDecoration: 'none', color: 'inherit', display: 'block' }}
       aria-label={item.title}
     >
       <div className="thumb">
