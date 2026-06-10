@@ -4,7 +4,7 @@ excerpt: "Microsoft's largest-ever Patch Tuesday ships 208 CVEs, including a CVS
 date: "2026-06-11"
 author: "Vibhum Dubey"
 tags: ["patch-tuesday", "windows-security", "vulnerability-management", "remote-code-execution"]
-coverImage: "/blog-covers/patch-tuesday-june-2026-wormable-kernel.jpg"
+coverImage: ""
 featured: false
 readingTime: 7
 ---
